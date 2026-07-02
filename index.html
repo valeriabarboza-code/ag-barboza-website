@@ -7,7 +7,7 @@
   <meta name="description" content="AG Barboza Corporation — South Florida's trusted luxury home renovation company. Bathrooms, kitchens, flooring, and more. Serving Broward County & Miami-Dade since 2008. Free estimates. Bilingual." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Dancing+Script:wght@600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Dancing+Script:wght@600&family=Jost:wght@300;400;500&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     /* ── Reset & base ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,6 +22,7 @@
       --gray:   #666666;
       --light:  #f0ece4;
       --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-display: 'Jost', 'Work Sans', sans-serif;
       --font-sans:  'Work Sans', system-ui, sans-serif;
       --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
@@ -260,14 +261,19 @@
       margin-bottom: 1rem;
     }
     .hero-title {
-      font-family: var(--font-serif);
+      font-family: var(--font-display);
       font-size: clamp(3rem, 7vw, 5.5rem);
       font-weight: 300;
       line-height: 1.1;
+      letter-spacing: 0.01em;
       margin-bottom: 0.3rem;
     }
     .hero-title em {
+      font-family: var(--font-serif);
       font-style: italic;
+      font-weight: 400;
+      font-size: 1.06em;
+      letter-spacing: 0;
       color: var(--gold);
     }
     .hero-subtitle {
@@ -356,17 +362,21 @@
       color: var(--gold);
     }
     .section-title {
-      font-family: var(--font-serif);
+      font-family: var(--font-display);
       font-size: clamp(2.2rem, 4vw, 3.2rem);
       font-weight: 300;
       line-height: 1.2;
+      letter-spacing: 0.01em;
       color: var(--navy);
       margin-top: 0.5rem;
     }
     .section-title em,
     .section-title.solid em {
+      font-family: var(--font-serif);
       font-style: italic;
       font-weight: 400;
+      font-size: 1.06em;
+      letter-spacing: 0;
       color: var(--gold);
     }
     .founder-sign {
@@ -864,13 +874,14 @@
       color: var(--white);
     }
     .cta-title {
-      font-family: var(--font-serif);
+      font-family: var(--font-display);
       font-size: clamp(2rem, 4vw, 3rem);
       font-weight: 300;
       line-height: 1.25;
+      letter-spacing: 0.01em;
       margin-bottom: 1rem;
     }
-    .cta-title em { font-style: italic; color: var(--gold); }
+    .cta-title em { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 1.06em; color: var(--gold); }
     .cta-sub {
       font-size: 0.92rem;
       color: rgba(255,255,255,0.7);
@@ -1156,6 +1167,170 @@
     @media (max-width: 640px) {
       .wa-float { display: flex; }
     }
+
+    /* ── Trust strip (moving ticker) ──────────────────────────────── */
+    .trust-strip {
+      background: var(--off);
+      border-top: 1px solid rgba(201,168,76,0.28);
+      border-bottom: 1px solid rgba(201,168,76,0.28);
+      overflow: hidden;
+    }
+    .trust-marquee {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 4%, #000 96%, transparent);
+    }
+    .trust-track {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      animation: trust-scroll 32s linear infinite;
+    }
+    .trust-strip:hover .trust-track { animation-play-state: paused; }
+    .trust-item {
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 1.15rem 1.7rem;
+      white-space: nowrap;
+    }
+    .trust-item::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex: none;
+    }
+    @keyframes trust-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-25%); }
+    }
+    @media (max-width: 640px) {
+      .trust-item { font-size: 0.64rem; letter-spacing: 0.1em; padding: 1rem 1.1rem; }
+    }
+
+    /* ── Serving area ─────────────────────────────────────────────── */
+    #areas { padding: 7rem 0; }
+    #faq { padding: 7rem 0; background: var(--white); }
+    .area-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.6rem;
+    }
+    .area-card {
+      background: var(--white);
+      border: 1px solid rgba(13,43,85,0.1);
+      border-radius: 4px;
+      padding: 2.4rem 2rem;
+      text-align: center;
+    }
+    .area-card h3 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 1.55rem;
+      letter-spacing: 0.01em;
+      color: var(--navy);
+      margin-bottom: 0.9rem;
+    }
+    .area-cities {
+      font-family: var(--font-sans);
+      font-size: 0.86rem;
+      line-height: 1.95;
+      color: var(--gray);
+    }
+    .area-note {
+      text-align: center;
+      margin-top: 3rem;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--navy);
+    }
+    @media (max-width: 640px) {
+      .area-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── FAQ ──────────────────────────────────────────────────────── */
+    .faq-list { max-width: 760px; margin: 2.6rem auto 0; }
+    .faq-item { border-bottom: 1px solid rgba(13,43,85,0.12); }
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 1.3rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-family: var(--font-display);
+      font-size: 1.12rem;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      color: var(--navy);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '+';
+      font-family: var(--font-sans);
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--gold);
+      flex: none;
+      line-height: 1;
+    }
+    .faq-item[open] summary::after { content: '\2212'; }
+    .faq-answer {
+      padding: 0 0 1.5rem;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--gray);
+      max-width: 680px;
+    }
+
+    /* ── Sliding image rows ───────────────────────────────────────── */
+    .marquee-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      margin-top: 2.8rem;
+    }
+    .marquee {
+      overflow: hidden;
+      width: 100%;
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    }
+    .marquee-track {
+      display: flex;
+      gap: 1.1rem;
+      width: max-content;
+      animation: marquee-scroll 50s linear infinite;
+    }
+    .marquee-track.reverse { animation-direction: reverse; }
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    .marquee-track img {
+      height: 250px;
+      width: 340px;
+      object-fit: cover;
+      border-radius: 4px;
+      flex: none;
+      display: block;
+    }
+    @keyframes marquee-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @media (max-width: 640px) {
+      .marquee-track img { height: 180px; width: 250px; }
+    }
   </style>
 </head>
 <body>
@@ -1239,6 +1414,30 @@
       <span data-i18n="hero_scroll">Scroll</span>
     </div>
   </section>
+
+  <!-- ── Trust strip (moving ticker) ────────────────────────────── -->
+  <div class="trust-strip">
+    <div class="trust-marquee">
+      <div class="trust-track">
+        <span class="trust-item" data-i18n="trust1">Family Owned &amp; Operated</span>
+        <span class="trust-item" data-i18n="trust2">Serving South Florida Since 2008</span>
+        <span class="trust-item" data-i18n="trust3">Bilingual — English &amp; Español</span>
+        <span class="trust-item" data-i18n="trust4">Free Estimates</span>
+        <span class="trust-item" data-i18n="trust1" aria-hidden="true">Family Owned &amp; Operated</span>
+        <span class="trust-item" data-i18n="trust2" aria-hidden="true">Serving South Florida Since 2008</span>
+        <span class="trust-item" data-i18n="trust3" aria-hidden="true">Bilingual — English &amp; Español</span>
+        <span class="trust-item" data-i18n="trust4" aria-hidden="true">Free Estimates</span>
+        <span class="trust-item" data-i18n="trust1" aria-hidden="true">Family Owned &amp; Operated</span>
+        <span class="trust-item" data-i18n="trust2" aria-hidden="true">Serving South Florida Since 2008</span>
+        <span class="trust-item" data-i18n="trust3" aria-hidden="true">Bilingual — English &amp; Español</span>
+        <span class="trust-item" data-i18n="trust4" aria-hidden="true">Free Estimates</span>
+        <span class="trust-item" data-i18n="trust1" aria-hidden="true">Family Owned &amp; Operated</span>
+        <span class="trust-item" data-i18n="trust2" aria-hidden="true">Serving South Florida Since 2008</span>
+        <span class="trust-item" data-i18n="trust3" aria-hidden="true">Bilingual — English &amp; Español</span>
+        <span class="trust-item" data-i18n="trust4" aria-hidden="true">Free Estimates</span>
+      </div>
+    </div>
+  </div>
 
   <!-- ── Stats ──────────────────────────────────────────────────── -->
   <section id="stats">
@@ -1405,46 +1604,34 @@
           Every project in our portfolio was built by Anthony — personally. These are South Florida homes we are proud to put our name on.
         </p>
       </div>
-      <div class="gallery-grid">
-        <div class="gallery-item" data-index="0">
-          <img src="images/project-3.jpg" alt="Luxury bathroom renovation with gold fixtures" loading="lazy" />
-          <div class="gallery-overlay"><span data-i18n="g1">Master Bathroom</span></div>
+      <div class="marquee-rows reveal">
+        <div class="marquee">
+          <div class="marquee-track">
+            <img src="images/project-3.jpg" alt="Luxury bathroom renovation with gold fixtures" loading="lazy" />
+            <img src="images/project-2.jpg" alt="Marble shower with blue stone tile" loading="lazy" />
+            <img src="images/project-7.jpg" alt="Modern bathroom vanity" loading="lazy" />
+            <img src="images/project-4.jpg" alt="Marble shower enclosure with glass" loading="lazy" />
+            <img src="images/project-6.jpg" alt="Freestanding bathtub with marble surround" loading="lazy" />
+            <img src="images/project-3.jpg" alt="" aria-hidden="true" loading="lazy" />
+            <img src="images/project-2.jpg" alt="" aria-hidden="true" loading="lazy" />
+            <img src="images/project-7.jpg" alt="" aria-hidden="true" loading="lazy" />
+            <img src="images/project-4.jpg" alt="" aria-hidden="true" loading="lazy" />
+            <img src="images/project-6.jpg" alt="" aria-hidden="true" loading="lazy" />
+          </div>
         </div>
-        <div class="gallery-item" data-index="1">
-          <img src="images/project-2.jpg" alt="Marble shower with blue stone tile" loading="lazy" />
-          <div class="gallery-overlay"><span data-i18n="g2">Custom Shower</span></div>
-        </div>
-        <div class="gallery-item" data-index="2">
-          <img src="images/project-7.jpg" alt="Modern bathroom vanity" loading="lazy" />
-          <div class="gallery-overlay"><span data-i18n="g3">Bathroom Renovation</span></div>
-        </div>
-        <div class="gallery-item" data-index="3">
-          <img src="images/project-4.jpg" alt="Marble shower enclosure with glass" loading="lazy" />
-          <div class="gallery-overlay"><span data-i18n="g4">Glass Enclosure</span></div>
-        </div>
-        <div class="gallery-item" data-index="4">
-          <img src="images/project-6.jpg" alt="Freestanding bathtub with marble surround" loading="lazy" />
-          <div class="gallery-overlay"><span data-i18n="g5">Luxury Soaking Tub</span></div>
-        </div>
-        <div class="gallery-item" data-index="5">
-          <img src="images/project-1.jpg" alt="Full bathroom renovation" loading="lazy" />
-          <div class="gallery-overlay"><span data-i18n="g6">Full Renovation</span></div>
-        </div>
-        <div class="gallery-item" data-index="6">
-          <img src="images/project-5.jpg" alt="Walk-in shower with ceiling rain head" loading="lazy" />
-          <div class="gallery-overlay"><span data-i18n="g7">Walk-in Shower</span></div>
-        </div>
-        <div class="gallery-item" data-index="7">
-          <img src="images/project-8.jpg" alt="Contemporary bathroom remodel" loading="lazy" />
-          <div class="gallery-overlay"><span data-i18n="g8">Contemporary Bath</span></div>
-        </div>
-        <div class="gallery-item" data-index="8">
-          <img src="images/project-9.jpg" alt="Modern tile bathroom" loading="lazy" />
-          <div class="gallery-overlay"><span data-i18n="g9">Modern Tile Work</span></div>
-        </div>
-        <div class="gallery-item" data-index="9">
-          <img src="images/project-10.jpg" alt="Luxury marble bathroom with wood vanity and gold fixtures" loading="lazy" />
-          <div class="gallery-overlay"><span data-i18n="g10">Designer Master Bath</span></div>
+        <div class="marquee">
+          <div class="marquee-track reverse">
+            <img src="images/project-1.jpg" alt="Full bathroom renovation" loading="lazy" />
+            <img src="images/project-5.jpg" alt="Walk-in shower with ceiling rain head" loading="lazy" />
+            <img src="images/project-8.jpg" alt="Contemporary bathroom remodel" loading="lazy" />
+            <img src="images/project-9.jpg" alt="Modern tile bathroom" loading="lazy" />
+            <img src="images/project-10.jpg" alt="Luxury marble bathroom with wood vanity and gold fixtures" loading="lazy" />
+            <img src="images/project-1.jpg" alt="" aria-hidden="true" loading="lazy" />
+            <img src="images/project-5.jpg" alt="" aria-hidden="true" loading="lazy" />
+            <img src="images/project-8.jpg" alt="" aria-hidden="true" loading="lazy" />
+            <img src="images/project-9.jpg" alt="" aria-hidden="true" loading="lazy" />
+            <img src="images/project-10.jpg" alt="" aria-hidden="true" loading="lazy" />
+          </div>
         </div>
       </div>
     </div>
@@ -1524,6 +1711,31 @@
     </div>
   </section>
 
+  <!-- ── Serving Your Area ──────────────────────────────────────── -->
+  <section id="areas" style="background:var(--off);">
+    <div class="container">
+      <div class="reveal" style="text-align:center;">
+        <p class="section-eyebrow" data-i18n="area_eyebrow">Where We Work</p>
+        <h2 class="section-title" data-i18n="area_title">Serving All of <em>South Florida</em></h2>
+        <span class="gold-line center"></span>
+        <p class="section-body" style="max-width:560px;margin:0 auto;" data-i18n="area_body">
+          Proudly based in South Florida and serving homeowners across the region — with the heart of our work in Broward County and Miami-Dade.
+        </p>
+      </div>
+      <div class="area-grid reveal">
+        <div class="area-card">
+          <h3 data-i18n="area1_name">Broward County</h3>
+          <p class="area-cities" data-i18n="area1_cities">Fort Lauderdale · Pembroke Pines · Hollywood<br />Coral Springs · Davie · Weston · Miramar<br />Plantation · Sunrise &amp; surrounding areas</p>
+        </div>
+        <div class="area-card">
+          <h3 data-i18n="area2_name">Miami-Dade County</h3>
+          <p class="area-cities" data-i18n="area2_cities">Miami · Aventura · Doral · Hialeah<br />Kendall · Homestead · Miami Beach<br />Coral Gables &amp; surrounding areas</p>
+        </div>
+      </div>
+      <p class="area-note reveal" data-i18n="area_note">Not sure if we cover your area? Just ask — if you're in South Florida, we'd love to help.</p>
+    </div>
+  </section>
+
   <!-- ── Testimonials ───────────────────────────────────────────── -->
   <section id="testimonials">
     <div class="container">
@@ -1548,6 +1760,43 @@
           <p class="testimonial-author" data-i18n="test3_author">— Sebastian Ortiz</p>
           <div class="stars">★★★★★</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ────────────────────────────────────────────────────── -->
+  <section id="faq">
+    <div class="container">
+      <div class="reveal" style="text-align:center;">
+        <p class="section-eyebrow" data-i18n="faq_eyebrow">Good to Know</p>
+        <h2 class="section-title" data-i18n="faq_title">Questions, <em>Answered</em></h2>
+        <span class="gold-line center"></span>
+      </div>
+      <div class="faq-list reveal">
+        <details class="faq-item">
+          <summary data-i18n="faq_q1">Do you offer free estimates?</summary>
+          <div class="faq-answer" data-i18n="faq_a1">Always. Every project starts with a free, no-obligation estimate. We visit your home, review the full scope of the work, and give you an honest, detailed quote before you commit to anything.</div>
+        </details>
+        <details class="faq-item">
+          <summary data-i18n="faq_q2">What areas do you serve?</summary>
+          <div class="faq-answer" data-i18n="faq_a2">We serve homeowners across South Florida, with most of our work in Broward County and Miami-Dade. If you're in the region and not sure whether we cover your area, just ask.</div>
+        </details>
+        <details class="faq-item">
+          <summary data-i18n="faq_q3">Do you speak Spanish?</summary>
+          <div class="faq-answer" data-i18n="faq_a3">Yes. We serve English- and Spanish-speaking families with the same care, so you'll always understand exactly what's happening in your home. Hablamos español.</div>
+        </details>
+        <details class="faq-item">
+          <summary data-i18n="faq_q4">What kinds of projects do you take on?</summary>
+          <div class="faq-answer" data-i18n="faq_a4">Bathrooms are our specialty, but we handle complete interior renovations — kitchens, flooring, painting and finishes, garage and space conversions, and the plumbing and electrical work that goes with them.</div>
+        </details>
+        <details class="faq-item">
+          <summary data-i18n="faq_q5">How does payment work?</summary>
+          <div class="faq-answer" data-i18n="faq_a5">It's simple and transparent: 50% to start, 25% at the midpoint, and 25% when the work is complete and you're happy with it. Everything is spelled out in a written contract before we begin.</div>
+        </details>
+        <details class="faq-item">
+          <summary data-i18n="faq_q6">How do we get started?</summary>
+          <div class="faq-answer" data-i18n="faq_a6">Call or message us and we'll schedule your free estimate at a time that works for you. From there, we put everything in writing — no surprises, no pressure, just clarity.</div>
+        </details>
       </div>
     </div>
   </section>
@@ -1849,7 +2098,7 @@
 
   <!-- ── Bilingual (EN/ES) engine ───────────────────────────────── -->
   <script>
-    const I18N_ES = {"nav_about": "Nosotros", "nav_services": "Servicios", "nav_gallery": "Galería", "nav_why": "Por Qué Nosotros", "nav_contact": "Contacto", "nav_tagline": "Sur de Florida · Desde 2008", "nav_cta": "Estimado Gratis", "mobile_cta": "Estimado Gratis — (954) 892-6059", "hero_eyebrow": "La Empresa Familiar de Renovación de Confianza del Sur de Florida", "hero_title": "\n        Usted lo <em>Sueña</em>,<br />Nosotros lo Construimos.\n      ", "hero_subtitle": "Renovación de hogares de lujo, construida sobre artesanía, integridad y familia.", "hero_cta1": "Solicite un Estimado Gratis", "hero_cta2": "Vea Nuestro Trabajo", "hero_scroll": "Desliza", "stat1": "Años de Experiencia", "stat2": "Por Recomendación", "stat3": "Idiomas", "stat4": "Costo de su Estimado", "badge_yrs": "Años de<br/>Excelencia", "about_eyebrow": "Nuestra Historia", "about_title": "Una Familia Construida sobre<br /><em>Confianza y Arte</em>", "about_p1": "\n            AG Barboza Corporation fue fundada por Anthony Barboza, un hombre que llegó al Sur de Florida desde Perú con un sueño y la disciplina para hacerlo realidad. Guiado por un amigo de confianza, Anthony descubrió no solo una profesión, sino una vocación. Desde 2008, su trabajo ha hablado por sí mismo, creciendo enteramente gracias a las recomendaciones de familias que confiaron en él dentro de sus hogares y nunca miraron atrás.\n          ", "about_p2": "\n            Anthony construyó esta empresa sobre una base sencilla: hacer el trabajo bien, tratar a cada cliente como familia y nunca comprometer la calidad. Durante más de 18 años, ese compromiso le ha dado algo que ningún anuncio puede comprar: una reputación que se difunde de boca en boca, un cliente satisfecho a la vez. En una industria donde la confianza es difícil de encontrar, AG Barboza Corporation ha construido su nombre sin tomar atajos.\n          ", "about_quote": "\n            \"La integridad lo es todo. Si la pierdes, lo pierdes todo. Eso nunca pasará aquí.\"\n            <span class=\"founder-sign\">Anthony Barboza</span>\n            <small class=\"founder-role\">Fundador y Maestro de Obra</small>\n          ", "about_cta": "Obtenga un Estimado Gratis", "family_eyebrow": "El Equipo Detrás del Trabajo", "family_title": "Conozca a la <em>Familia Barboza</em>", "family_intro": "\n          Esto es más que un negocio: es una familia. Cada proyecto lleva nuestro nombre, y así lo tratamos.\n        ", "anthony_role": "Fundador · Propietario · Maestro de Obra", "anthony_bio": "\n              Anthony construyó esta empresa desde cero, una recomendación y un hogar transformado a la vez. Con más de 18 años de experiencia práctica en el Sur de Florida, dirige personalmente cada proyecto de principio a fin. Hablante nativo de español, con un ojo agudo para el detalle y una visión creativa, estará en su hogar desde el primer estimado hasta la revisión final.\n            ", "valeria_role": "Marca y Diseño · Coordinadora Bilingüe · Asistente de Negocios", "valeria_bio": "\n              Valeria es la hija de Anthony y la voz detrás de la marca. Con dominio del inglés y el español, ella conecta cada detalle, desde la comunicación con los clientes y la coordinación de proyectos hasta liderar el diseño y la dirección creativa que dan forma a la presencia moderna de la empresa. Con Valeria, siempre tiene a alguien a quien llamar, alguien que se preocupa y que da seguimiento.\n            ", "ff_eyebrow": "Más Que una Empresa", "ff_title": "Una Familia en Quien Puede Confiar en Su Hogar", "ff_p": "Cuando contrata a AG Barboza Corporation, no contrata a un contratista cualquiera: da la bienvenida a nuestra familia dentro de la suya. Esa es una responsabilidad que nunca tomamos a la ligera.", "services_eyebrow": "Lo Que Hacemos", "services_title": "Renovación Interior <em>Completa</em>", "services_body": "\n          Si está dentro de su hogar, podemos transformarlo. Cada proyecto comienza con un estimado gratis, sin compromiso, sin presión, solo honestidad.\n        ", "svc1_name": "Renovación de Baños", "svc1_desc": "Nuestra especialidad. Desde suites principales hasta baños de visitas: remodelación completa con azulejo de porcelana, instalación de jacuzzi, bases de ducha, plomería e iluminación. Cada detalle, bien hecho.", "svc1_tag": "Más Solicitado", "svc2_name": "Remodelación de Cocinas", "svc2_desc": "Transformaciones completas de cocina: gabinetes, encimeras, azulejo de pared, ajustes de plomería e iluminación. Definimos cada proyecto según su visión y la elección de materiales.", "svc3_name": "Pisos", "svc3_desc": "Desde mármol y porcelana hasta laminado y madera. Instalamos pisos que complementan la estética completa de su hogar, con precios según los metros cuadrados y la complejidad del material.", "svc4_name": "Pintura y Acabados", "svc4_desc": "Pintura interior y exterior y acabados personalizados que unen todo el espacio: líneas limpias, capas uniformes y un resultado impecable que hace que cada habitación se sienta como nueva.", "svc5_name": "Conversión de Espacios", "svc5_desc": "Convierta su garaje en una habitación, una oficina o espacio adicional. Construcción completa que incluye estructura, tablaroca, electricidad, pisos y acabados.", "svc6_name": "Plomería y Electricidad", "svc6_desc": "Todo trabajo de renovación incluye plomería y electricidad profesional según se necesite: cambio de luminarias, instalación y ajuste de tuberías, e integración completa de los sistemas.", "services_cta": "Agende su Estimado Gratis", "gallery_eyebrow": "Nuestro Trabajo", "gallery_title": "La Calidad <em>Habla</em> por Sí Sola", "gallery_body": "\n          Cada proyecto de nuestro portafolio fue construido por Anthony, personalmente. Estos son hogares del Sur de Florida en los que nos enorgullece poner nuestro nombre.\n        ", "g1": "Baño Principal", "g2": "Ducha Personalizada", "g3": "Renovación de Baño", "g4": "Cancel de Vidrio", "g5": "Bañera de Lujo", "g6": "Renovación Completa", "g7": "Ducha Amplia", "g8": "Baño Contemporáneo", "g9": "Azulejo Moderno", "g10": "Baño Principal de Diseño", "why_eyebrow": "Por Qué AG Barboza", "why_title": "El Estándar Que <em>Nunca</em> Bajamos", "why1_title": "Integridad en Todo", "why1_text": "Los valores de Anthony son la base de este negocio. Precios honestos, alcance transparente y cero atajos. Nuestra palabra es nuestro contrato, y nuestro trabajo es la prueba.", "why2_title": "18+ Años, Por Recomendación", "why2_text": "Desde 2008 nunca hemos pagado por publicidad. Cada cliente llegó por otro cliente satisfecho. Ese es el único respaldo que importa.", "why3_title": "Servicio Bilingüe", "why3_text": "Atendemos a las comunidades de habla inglesa y española del Sur de Florida con el mismo cuidado. Usted siempre debe entender exactamente lo que sucede en su hogar.", "why4_title": "Estimado Gratis, Siempre", "why4_text": "Cada proyecto comienza con un estimado sin costo y sin compromiso. Usted conoce el número honesto antes de firmar cualquier contrato o iniciar cualquier trabajo.", "process_eyebrow": "Cómo Funciona", "process_title": "Simple. Honesto. <em>Bien Hecho.</em>", "step1_title": "Estimado Gratis", "step1_desc": "Llámenos o escríbanos. Visitamos su hogar, evaluamos el alcance completo del trabajo y le damos una cotización honesta y detallada, sin costo.", "step2_title": "Contrato Firmado", "step2_desc": "Una vez que aprueba el estimado, formalizamos todo en un contrato escrito. Sin sorpresas. Sin zonas grises. Solo claridad.", "step3_title": "Manos a la Obra", "step3_desc": "Anthony y su equipo de confianza llegan y ejecutan. 50% al inicio, 25% a la mitad, 25% al finalizar. Siempre estará informado.", "step4_title": "Revisión Final", "step4_desc": "Recorremos juntos el proyecto terminado. Cada detalle revisado. Cada inquietud atendida. No nos vamos hasta que esté orgulloso del resultado.", "test_eyebrow": "Historias de Clientes", "test_title": "Lo Que Dicen Nuestras <em>Familias</em>", "test1_text": "AG Barboza Corporation entrega resultados excepcionales. Siempre me impresiona la rapidez con la que transforman cualquier espacio. Uno les comparte su visión y ellos la hacen realidad con profesionalismo, dedicación y una atención meticulosa al detalle. Los recomiendo totalmente.", "test1_author": "— Adriana Fortuna", "test3_text": "La calidad del trabajo, la comunicación y la dedicación a la excelencia superaron todas mis expectativas. Si busca a alguien talentoso, confiable y apasionado por lo que hace, recomiendo totalmente a AG Barboza Corporation. ¡Gracias por el excelente trabajo!", "test3_author": "— Sebastian Ortiz", "cta_title": "Su Hogar Merece la<br /><em>Mejor Versión de Sí Mismo.</em>", "cta_sub": "Comience con un estimado gratis y sin compromiso de un contratista que será honesto con usted desde la primera conversación hasta el último azulejo.", "cta_btn1": "Solicite su Estimado Gratis", "cta_btn2": "Llámenos Ahora", "contact_eyebrow": "Contáctenos", "contact_title": "Hablemos de<br /><em>Su Hogar</em>", "contact_p": "Toda gran renovación comienza con una conversación honesta. Escríbanos y agendaremos un estimado gratis en el horario que más le convenga. Sin presión. Sin compromiso. Solo claridad.", "contact_loc": "Condado de Broward y Miami-Dade, Sur de Florida", "contact_hours": "Lun – Sáb: 8:00 AM – 6:00 PM", "form_title": "Solicite un Estimado Gratis", "form_sub": "Complete el formulario y nos pondremos en contacto dentro de 24 horas.", "label_first": "Nombre", "label_last": "Apellido", "label_phone": "Teléfono", "label_email": "Correo Electrónico", "label_service": "Servicio Necesitado", "label_message": "Cuéntenos Sobre Su Proyecto", "opt0": "Seleccione un servicio...", "opt_bath": "Renovación de Baños", "opt_kit": "Remodelación de Cocinas", "opt_floor": "Pisos", "opt_roof": "Pintura y Acabados", "opt_space": "Conversión de Espacios / Garaje", "opt_plumb": "Plomería o Electricidad", "opt_multi": "Múltiples Servicios / Renovación Completa", "opt_other": "Otro", "submit_btn": "\n              Enviar mi Solicitud de Estimado\n            ", "free_note": "&#10003; Estimado gratis &nbsp; &#10003; Sin compromiso &nbsp; &#10003; Respuesta en 24 horas", "social_eyebrow": "Manténgase Conectado", "social_title": "Siga Nuestro <em>Trabajo</em>", "social_p": "\n        Vea nuestros proyectos más recientes, antes y después, y transformaciones de renovación en Instagram y Facebook.\n      ", "footer_brand": "Empresa familiar de renovación de hogares del Sur de Florida. Atendemos el Condado de Broward y Miami-Dade con integridad, artesanía y atención bilingüe desde 2008.", "footer_tagline": "\"Usted lo sueña, nosotros lo construimos.\"", "footer_h_services": "Servicios", "footer_h_company": "Empresa", "f_bath": "Renovación de Baños", "f_kit": "Remodelación de Cocinas", "f_floor": "Pisos", "f_roof": "Pintura y Acabados", "f_space": "Conversión de Espacios", "f_plumb": "Plomería y Electricidad", "f_about": "Nosotros", "f_family": "Nuestra Familia", "f_gallery": "Galería", "f_why": "Por Qué Elegirnos", "f_contact": "Contacto", "footer_copy": "&copy; 2026 AG Barboza Corporation. Todos los derechos reservados.", "footer_loc": "Condado de Broward y Miami-Dade, Sur de Florida &nbsp;|&nbsp; English &amp; Español"};
+    const I18N_ES = {"nav_about": "Nosotros", "nav_services": "Servicios", "nav_gallery": "Galería", "nav_why": "Por Qué Nosotros", "nav_contact": "Contacto", "nav_tagline": "Sur de Florida · Desde 2008", "nav_cta": "Estimado Gratis", "mobile_cta": "Estimado Gratis — (954) 892-6059", "hero_eyebrow": "La Empresa Familiar de Renovación de Confianza del Sur de Florida", "hero_title": "\n        Usted lo <em>Sueña</em>,<br />Nosotros lo Construimos.\n      ", "hero_subtitle": "Renovación de hogares de lujo, construida sobre artesanía, integridad y familia.", "hero_cta1": "Solicite un Estimado Gratis", "hero_cta2": "Vea Nuestro Trabajo", "hero_scroll": "Desliza", "stat1": "Años de Experiencia", "stat2": "Por Recomendación", "stat3": "Idiomas", "stat4": "Costo de su Estimado", "badge_yrs": "Años de<br/>Excelencia", "about_eyebrow": "Nuestra Historia", "about_title": "Una Familia Construida sobre<br /><em>Confianza y Arte</em>", "about_p1": "\n            AG Barboza Corporation fue fundada por Anthony Barboza, un hombre que llegó al Sur de Florida desde Perú con un sueño y la disciplina para hacerlo realidad. Guiado por un amigo de confianza, Anthony descubrió no solo una profesión, sino una vocación. Desde 2008, su trabajo ha hablado por sí mismo, creciendo enteramente gracias a las recomendaciones de familias que confiaron en él dentro de sus hogares y nunca miraron atrás.\n          ", "about_p2": "\n            Anthony construyó esta empresa sobre una base sencilla: hacer el trabajo bien, tratar a cada cliente como familia y nunca comprometer la calidad. Durante más de 18 años, ese compromiso le ha dado algo que ningún anuncio puede comprar: una reputación que se difunde de boca en boca, un cliente satisfecho a la vez. En una industria donde la confianza es difícil de encontrar, AG Barboza Corporation ha construido su nombre sin tomar atajos.\n          ", "about_quote": "\n            \"La integridad lo es todo. Si la pierdes, lo pierdes todo. Eso nunca pasará aquí.\"\n            <span class=\"founder-sign\">Anthony Barboza</span>\n            <small class=\"founder-role\">Fundador y Maestro de Obra</small>\n          ", "about_cta": "Obtenga un Estimado Gratis", "family_eyebrow": "El Equipo Detrás del Trabajo", "family_title": "Conozca a la <em>Familia Barboza</em>", "family_intro": "\n          Esto es más que un negocio: es una familia. Cada proyecto lleva nuestro nombre, y así lo tratamos.\n        ", "anthony_role": "Fundador · Propietario · Maestro de Obra", "anthony_bio": "\n              Anthony construyó esta empresa desde cero, una recomendación y un hogar transformado a la vez. Con más de 18 años de experiencia práctica en el Sur de Florida, dirige personalmente cada proyecto de principio a fin. Hablante nativo de español, con un ojo agudo para el detalle y una visión creativa, estará en su hogar desde el primer estimado hasta la revisión final.\n            ", "valeria_role": "Marca y Diseño · Coordinadora Bilingüe · Asistente de Negocios", "valeria_bio": "\n              Valeria es la hija de Anthony y la voz detrás de la marca. Con dominio del inglés y el español, ella conecta cada detalle, desde la comunicación con los clientes y la coordinación de proyectos hasta liderar el diseño y la dirección creativa que dan forma a la presencia moderna de la empresa. Con Valeria, siempre tiene a alguien a quien llamar, alguien que se preocupa y que da seguimiento.\n            ", "ff_eyebrow": "Más Que una Empresa", "ff_title": "Una Familia en Quien Puede Confiar en Su Hogar", "ff_p": "Cuando contrata a AG Barboza Corporation, no contrata a un contratista cualquiera: da la bienvenida a nuestra familia dentro de la suya. Esa es una responsabilidad que nunca tomamos a la ligera.", "services_eyebrow": "Lo Que Hacemos", "services_title": "Renovación Interior <em>Completa</em>", "services_body": "\n          Si está dentro de su hogar, podemos transformarlo. Cada proyecto comienza con un estimado gratis, sin compromiso, sin presión, solo honestidad.\n        ", "svc1_name": "Renovación de Baños", "svc1_desc": "Nuestra especialidad. Desde suites principales hasta baños de visitas: remodelación completa con azulejo de porcelana, instalación de jacuzzi, bases de ducha, plomería e iluminación. Cada detalle, bien hecho.", "svc1_tag": "Más Solicitado", "svc2_name": "Remodelación de Cocinas", "svc2_desc": "Transformaciones completas de cocina: gabinetes, encimeras, azulejo de pared, ajustes de plomería e iluminación. Definimos cada proyecto según su visión y la elección de materiales.", "svc3_name": "Pisos", "svc3_desc": "Desde mármol y porcelana hasta laminado y madera. Instalamos pisos que complementan la estética completa de su hogar, con precios según los metros cuadrados y la complejidad del material.", "svc4_name": "Pintura y Acabados", "svc4_desc": "Pintura interior y exterior y acabados personalizados que unen todo el espacio: líneas limpias, capas uniformes y un resultado impecable que hace que cada habitación se sienta como nueva.", "svc5_name": "Conversión de Espacios", "svc5_desc": "Convierta su garaje en una habitación, una oficina o espacio adicional. Construcción completa que incluye estructura, tablaroca, electricidad, pisos y acabados.", "svc6_name": "Plomería y Electricidad", "svc6_desc": "Todo trabajo de renovación incluye plomería y electricidad profesional según se necesite: cambio de luminarias, instalación y ajuste de tuberías, e integración completa de los sistemas.", "services_cta": "Agende su Estimado Gratis", "gallery_eyebrow": "Nuestro Trabajo", "gallery_title": "La Calidad <em>Habla</em> por Sí Sola", "gallery_body": "\n          Cada proyecto de nuestro portafolio fue construido por Anthony, personalmente. Estos son hogares del Sur de Florida en los que nos enorgullece poner nuestro nombre.\n        ", "g1": "Baño Principal", "g2": "Ducha Personalizada", "g3": "Renovación de Baño", "g4": "Cancel de Vidrio", "g5": "Bañera de Lujo", "g6": "Renovación Completa", "g7": "Ducha Amplia", "g8": "Baño Contemporáneo", "g9": "Azulejo Moderno", "g10": "Baño Principal de Diseño", "why_eyebrow": "Por Qué AG Barboza", "why_title": "El Estándar Que <em>Nunca</em> Bajamos", "why1_title": "Integridad en Todo", "why1_text": "Los valores de Anthony son la base de este negocio. Precios honestos, alcance transparente y cero atajos. Nuestra palabra es nuestro contrato, y nuestro trabajo es la prueba.", "why2_title": "18+ Años, Por Recomendación", "why2_text": "Desde 2008 nunca hemos pagado por publicidad. Cada cliente llegó por otro cliente satisfecho. Ese es el único respaldo que importa.", "why3_title": "Servicio Bilingüe", "why3_text": "Atendemos a las comunidades de habla inglesa y española del Sur de Florida con el mismo cuidado. Usted siempre debe entender exactamente lo que sucede en su hogar.", "why4_title": "Estimado Gratis, Siempre", "why4_text": "Cada proyecto comienza con un estimado sin costo y sin compromiso. Usted conoce el número honesto antes de firmar cualquier contrato o iniciar cualquier trabajo.", "process_eyebrow": "Cómo Funciona", "process_title": "Simple. Honesto. <em>Bien Hecho.</em>", "step1_title": "Estimado Gratis", "step1_desc": "Llámenos o escríbanos. Visitamos su hogar, evaluamos el alcance completo del trabajo y le damos una cotización honesta y detallada, sin costo.", "step2_title": "Contrato Firmado", "step2_desc": "Una vez que aprueba el estimado, formalizamos todo en un contrato escrito. Sin sorpresas. Sin zonas grises. Solo claridad.", "step3_title": "Manos a la Obra", "step3_desc": "Anthony y su equipo de confianza llegan y ejecutan. 50% al inicio, 25% a la mitad, 25% al finalizar. Siempre estará informado.", "step4_title": "Revisión Final", "step4_desc": "Recorremos juntos el proyecto terminado. Cada detalle revisado. Cada inquietud atendida. No nos vamos hasta que esté orgulloso del resultado.", "test_eyebrow": "Historias de Clientes", "test_title": "Lo Que Dicen Nuestras <em>Familias</em>", "test1_text": "AG Barboza Corporation entrega resultados excepcionales. Siempre me impresiona la rapidez con la que transforman cualquier espacio. Uno les comparte su visión y ellos la hacen realidad con profesionalismo, dedicación y una atención meticulosa al detalle. Los recomiendo totalmente.", "test1_author": "— Adriana Fortuna", "test3_text": "La calidad del trabajo, la comunicación y la dedicación a la excelencia superaron todas mis expectativas. Si busca a alguien talentoso, confiable y apasionado por lo que hace, recomiendo totalmente a AG Barboza Corporation. ¡Gracias por el excelente trabajo!", "test3_author": "— Sebastian Ortiz", "cta_title": "Su Hogar Merece la<br /><em>Mejor Versión de Sí Mismo.</em>", "cta_sub": "Comience con un estimado gratis y sin compromiso de un contratista que será honesto con usted desde la primera conversación hasta el último azulejo.", "cta_btn1": "Solicite su Estimado Gratis", "cta_btn2": "Llámenos Ahora", "contact_eyebrow": "Contáctenos", "contact_title": "Hablemos de<br /><em>Su Hogar</em>", "contact_p": "Toda gran renovación comienza con una conversación honesta. Escríbanos y agendaremos un estimado gratis en el horario que más le convenga. Sin presión. Sin compromiso. Solo claridad.", "contact_loc": "Condado de Broward y Miami-Dade, Sur de Florida", "contact_hours": "Lun – Sáb: 8:00 AM – 6:00 PM", "form_title": "Solicite un Estimado Gratis", "form_sub": "Complete el formulario y nos pondremos en contacto dentro de 24 horas.", "label_first": "Nombre", "label_last": "Apellido", "label_phone": "Teléfono", "label_email": "Correo Electrónico", "label_service": "Servicio Necesitado", "label_message": "Cuéntenos Sobre Su Proyecto", "opt0": "Seleccione un servicio...", "opt_bath": "Renovación de Baños", "opt_kit": "Remodelación de Cocinas", "opt_floor": "Pisos", "opt_roof": "Pintura y Acabados", "opt_space": "Conversión de Espacios / Garaje", "opt_plumb": "Plomería o Electricidad", "opt_multi": "Múltiples Servicios / Renovación Completa", "opt_other": "Otro", "submit_btn": "\n              Enviar mi Solicitud de Estimado\n            ", "free_note": "&#10003; Estimado gratis &nbsp; &#10003; Sin compromiso &nbsp; &#10003; Respuesta en 24 horas", "social_eyebrow": "Manténgase Conectado", "social_title": "Siga Nuestro <em>Trabajo</em>", "social_p": "\n        Vea nuestros proyectos más recientes, antes y después, y transformaciones de renovación en Instagram y Facebook.\n      ", "footer_brand": "Empresa familiar de renovación de hogares del Sur de Florida. Atendemos el Condado de Broward y Miami-Dade con integridad, artesanía y atención bilingüe desde 2008.", "footer_tagline": "\"Usted lo sueña, nosotros lo construimos.\"", "footer_h_services": "Servicios", "footer_h_company": "Empresa", "f_bath": "Renovación de Baños", "f_kit": "Remodelación de Cocinas", "f_floor": "Pisos", "f_roof": "Pintura y Acabados", "f_space": "Conversión de Espacios", "f_plumb": "Plomería y Electricidad", "f_about": "Nosotros", "f_family": "Nuestra Familia", "f_gallery": "Galería", "f_why": "Por Qué Elegirnos", "f_contact": "Contacto", "footer_copy": "&copy; 2026 AG Barboza Corporation. Todos los derechos reservados.", "footer_loc": "Condado de Broward y Miami-Dade, Sur de Florida &nbsp;|&nbsp; English &amp; Español", "trust1": "Empresa Familiar", "trust2": "En el Sur de Florida Desde 2008", "trust3": "Bilingüe — Inglés y Español", "trust4": "Estimados Gratis", "area_eyebrow": "Dónde Trabajamos", "area_title": "Servimos Todo el <em>Sur de Florida</em>", "area_body": "Con base en el Sur de Florida y sirviendo a familias en toda la región, con el corazón de nuestro trabajo en el Condado de Broward y Miami-Dade.", "area1_name": "Condado de Broward", "area1_cities": "Fort Lauderdale · Pembroke Pines · Hollywood<br />Coral Springs · Davie · Weston · Miramar<br />Plantation · Sunrise y áreas cercanas", "area2_name": "Condado de Miami-Dade", "area2_cities": "Miami · Aventura · Doral · Hialeah<br />Kendall · Homestead · Miami Beach<br />Coral Gables y áreas cercanas", "area_note": "¿No está seguro si cubrimos su área? Pregúntenos — si está en el Sur de Florida, con gusto le ayudamos.", "faq_eyebrow": "Bueno Saber", "faq_title": "Preguntas, <em>Respondidas</em>", "faq_q1": "¿Ofrecen estimados gratis?", "faq_a1": "Siempre. Cada proyecto comienza con un estimado gratis y sin compromiso. Visitamos su hogar, evaluamos el alcance completo del trabajo y le damos una cotización honesta y detallada antes de que se comprometa a nada.", "faq_q2": "¿Qué áreas atienden?", "faq_a2": "Atendemos a familias en todo el Sur de Florida, con la mayor parte de nuestro trabajo en el Condado de Broward y Miami-Dade. Si está en la región y no sabe si cubrimos su área, solo pregúntenos.", "faq_q3": "¿Hablan español?", "faq_a3": "Sí. Atendemos a familias de habla inglesa y española con el mismo cuidado, para que siempre entienda exactamente lo que sucede en su hogar. Hablamos español.", "faq_q4": "¿Qué tipo de proyectos realizan?", "faq_a4": "Los baños son nuestra especialidad, pero realizamos renovaciones interiores completas: cocinas, pisos, pintura y acabados, conversión de garajes y espacios, y el trabajo de plomería y electricidad que conllevan.", "faq_q5": "¿Cómo funciona el pago?", "faq_a5": "Es sencillo y transparente: 50% al inicio, 25% a la mitad y 25% al finalizar, cuando esté satisfecho con el trabajo. Todo queda detallado en un contrato escrito antes de comenzar.", "faq_q6": "¿Cómo empezamos?", "faq_a6": "Llámenos o escríbanos y agendaremos su estimado gratis en el horario que más le convenga. A partir de ahí, ponemos todo por escrito: sin sorpresas, sin presión, solo claridad.", "closer_eyebrow": "Una Mirada Más de Cerca a Nuestro Trabajo"};
     const I18N_ES_PH = {"msg_ph": "Describa su espacio, lo que desea hacer y cualquier detalle que nos ayude a preparar su estimado..."};
 
     // Capture original English once
