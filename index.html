@@ -121,18 +121,21 @@
     }
     .nav-logo-text { line-height: 1.2; }
     .nav-logo-text .name {
-      font-family: var(--font-sans);
-      font-size: 0.98rem;
+      font-family: var(--font-display);
+      font-size: 1.15rem;
       font-weight: 400;
       color: var(--white);
-      letter-spacing: 0.1em;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
       white-space: nowrap;
+      line-height: 1;
     }
     .nav-logo-text .tagline {
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       color: var(--gold);
-      letter-spacing: 0.15em;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
+      margin-top: 4px;
     }
     .nav-links {
       display: flex;
@@ -160,6 +163,8 @@
     }
     .nav-links a:hover { color: var(--white); }
     .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--white); }
+    .nav-links a.active::after { transform: scaleX(1); }
     .nav-cta { margin-left: 0; }
     .nav-social {
       display: flex;
@@ -214,16 +219,22 @@
     /* ── Hero ─────────────────────────────────────────────────────── */
     #hero {
       position: relative;
-      height: 100vh;
-      min-height: 680px;
+      height: 128vh;
+      min-height: 880px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
     }
-    .hero-slides {
+    .hero-slides { display: none; }
+    .hero-video {
       position: absolute;
       inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
     }
     .hero-slide {
       position: absolute;
@@ -231,9 +242,17 @@
       background-size: cover;
       background-position: center;
       opacity: 0;
-      transition: opacity 1.5s ease;
+      transform: scale(1.04);
+      transition: opacity 2.4s ease;
     }
-    .hero-slide.active { opacity: 1; }
+    .hero-slide.active { opacity: 1; animation: heroKenBurns 11s ease-out forwards; }
+    @keyframes heroKenBurns {
+      from { transform: scale(1.04); }
+      to   { transform: scale(1.12); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-slide.active { animation: none; transform: scale(1.04); }
+    }
     .hero-overlay {
       position: absolute;
       inset: 0;
@@ -380,10 +399,11 @@
       color: var(--gold);
     }
     .founder-sign {
-      font-family: 'Dancing Script', cursive;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 2.2rem;
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 500;
+      font-size: 1.5rem;
+      letter-spacing: 0.01em;
       line-height: 1;
       color: var(--navy);
       display: block;
@@ -538,40 +558,60 @@
       .reel-grid { grid-template-columns: 1fr; max-width: 340px; }
     }
     .family-feature {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      align-items: stretch;
-      margin-top: 4rem;
-      background: var(--white);
-      box-shadow: 0 6px 24px rgba(13,43,85,0.06);
+      position: relative;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-top: 5rem;
+      min-height: 480px;
       overflow: hidden;
     }
     .family-feature img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
-      min-height: 340px;
+      min-height: 480px;
       object-fit: cover;
       display: block;
+      animation: familyKen 24s ease-in-out infinite alternate;
+    }
+    @keyframes familyKen {
+      from { transform: scale(1.03); }
+      to   { transform: scale(1.12); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .family-feature img { animation: none; transform: scale(1.03); }
+    }
+    .family-feature::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(13,43,85,0.88) 0%, rgba(13,43,85,0.6) 42%, rgba(13,43,85,0.12) 100%);
     }
     .family-feature-caption {
-      padding: 3rem 3rem;
+      position: relative;
+      z-index: 2;
+      min-height: 480px;
+      max-width: 640px;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      background: var(--navy);
+      padding: 5rem 8vw;
+      background: transparent;
     }
     .family-feature-caption h3 {
-      font-family: var(--font-serif);
-      font-size: 1.8rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.4vw, 2.6rem);
       font-weight: 300;
       color: var(--white);
-      line-height: 1.3;
-      margin: 0.5rem 0 1rem;
+      line-height: 1.25;
+      letter-spacing: 0.01em;
+      margin: 0.6rem 0 1.2rem;
     }
     .family-feature-caption p {
-      font-size: 0.92rem;
-      line-height: 1.8;
-      color: rgba(255,255,255,0.7);
+      font-size: 1rem;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.88);
+      max-width: 460px;
     }
 
     /* ── Services ─────────────────────────────────────────────────── */
@@ -1061,11 +1101,39 @@
     .footer-col ul { list-style: none; }
     .footer-col li { margin-bottom: 0.6rem; }
     .footer-col a {
+      position: relative;
+      display: inline-block;
+      isolation: isolate;
       font-size: 0.85rem;
       color: rgba(255,255,255,0.6);
-      transition: color 0.3s;
+      transition: color 0.35s ease, padding-left 0.35s ease;
     }
-    .footer-col a:hover { color: var(--gold); }
+    .footer-col a::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 50%;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transform: translateY(-50%);
+      transition: width 0.35s ease;
+    }
+    .footer-col a::after {
+      content: '';
+      position: absolute;
+      inset: -0.3rem -0.7rem;
+      background: rgba(201,168,76,0.09);
+      border-radius: 4px;
+      opacity: 0;
+      transform: scale(0.92);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      z-index: -1;
+    }
+    .footer-col a:hover {
+      color: var(--gold);
+      padding-left: 22px;
+    }
+    .footer-col a:hover::before { width: 14px; }
+    .footer-col a:hover::after { opacity: 1; transform: scale(1); }
     .footer-bottom {
       border-top: 1px solid rgba(255,255,255,0.1);
       padding-top: 2rem;
@@ -1098,8 +1166,10 @@
       .process-steps::before { display: none; }
       .footer-grid { grid-template-columns: 1fr; }
       .family-grid { grid-template-columns: 1fr; max-width: 420px; }
-      .family-feature { grid-template-columns: 1fr; }
-      .family-feature-caption { padding: 2.5rem 2rem; }
+      .family-feature { min-height: 420px; }
+      .family-feature img { min-height: 420px; }
+      .family-feature::after { background: linear-gradient(180deg, rgba(13,43,85,0.55) 0%, rgba(13,43,85,0.82) 100%); }
+      .family-feature-caption { min-height: 420px; padding: 3.5rem 1.6rem; max-width: 100%; }
     }
     @media (max-width: 640px) {
       .nav-links, .nav-actions { display: none; }
@@ -1331,9 +1401,453 @@
     @media (max-width: 640px) {
       .marquee-track img { height: 180px; width: 250px; }
     }
+
+    /* ── Kinetic team list ────────────────────────────────────────── */
+    .kteam {
+      margin-top: 3.4rem;
+      border-top: 1px solid rgba(13,43,85,0.14);
+    }
+    .kteam-row { border-bottom: 1px solid rgba(13,43,85,0.14); }
+    .kteam-line {
+      display: flex;
+      align-items: baseline;
+      gap: 1.4rem;
+      padding: 2rem 0.5rem;
+      cursor: pointer;
+      transition: transform 0.5s ease, opacity 0.4s ease;
+    }
+    .kteam-idx {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gold);
+      flex: none;
+    }
+    .kteam-name {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: clamp(1.9rem, 4.2vw, 3.4rem);
+      line-height: 1;
+      letter-spacing: 0.01em;
+      color: var(--navy);
+      transition: color 0.3s ease;
+    }
+    .kteam-role {
+      margin-left: auto;
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray);
+      text-align: right;
+      transition: color 0.3s ease;
+    }
+    .kteam-plus {
+      position: relative;
+      width: 16px; height: 16px;
+      flex: none;
+      align-self: center;
+    }
+    .kteam-plus::before, .kteam-plus::after {
+      content: '';
+      position: absolute;
+      background: var(--gold);
+    }
+    .kteam-plus::before { left: 0; top: 50%; width: 100%; height: 1.5px; transform: translateY(-50%); }
+    .kteam-plus::after { top: 0; left: 50%; height: 100%; width: 1.5px; transform: translateX(-50%); transition: opacity 0.3s ease, transform 0.3s ease; }
+    .kteam-row.open .kteam-plus::after { opacity: 0; transform: translateX(-50%) scaleY(0); }
+    .kteam-line:hover { transform: translateX(10px); }
+    .kteam-line:hover .kteam-name { color: var(--gold); }
+    .kteam-line:hover .kteam-role { color: var(--navy); }
+    .kteam:hover .kteam-row:not(:hover) .kteam-line { opacity: 0.32; }
+    .kteam-panel { max-height: 0; overflow: hidden; transition: max-height 0.55s ease; }
+    .kteam-row.open .kteam-panel { max-height: 620px; }
+    .kteam-panel-inner {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+      padding: 0.2rem 0.5rem 2.2rem 3rem;
+    }
+    .kteam-photo-inline { display: none; }
+    .kteam-bio {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--gray);
+      max-width: 660px;
+    }
+    /* Floating cursor image (desktop) */
+    .kteam-cursor {
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 60;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      will-change: transform;
+    }
+    .kteam-cursor.show { opacity: 1; }
+    .kteam-cursor img {
+      display: block;
+      width: 230px;
+      height: 290px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--gold);
+      box-shadow: 0 24px 60px rgba(13,43,85,0.35);
+      transform: scale(0.85);
+      transition: transform 0.35s ease;
+    }
+    .kteam-cursor.show img { transform: scale(1); }
+    @media (max-width: 767px) {
+      .kteam-cursor { display: none; }
+      .kteam-line { transform: none !important; }
+      .kteam:hover .kteam-row:not(:hover) .kteam-line { opacity: 1; }
+      .kteam-role { margin-left: 0; flex-basis: 100%; text-align: left; }
+      .kteam-line { flex-wrap: wrap; gap: 0.5rem 1rem; padding: 1.5rem 0.25rem; }
+      .kteam-panel-inner { padding-left: 0.25rem; }
+      .kteam-photo-inline {
+        display: block;
+        width: 110px; height: 138px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid var(--gold);
+        flex: none;
+      }
+    }
+
+    /* ── Scrolling review columns ─────────────────────────────────── */
+    .tcols {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 3rem;
+      max-height: 620px;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+      mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+    }
+    .tcol { width: 330px; flex: none; }
+    .tcol-track {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: tcol-scroll 28s linear infinite;
+    }
+    .tcols:hover .tcol-track { animation-play-state: paused; }
+    @keyframes tcol-scroll {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-50%); }
+    }
+    .tcard {
+      background: var(--white);
+      border: 1px solid rgba(13,43,85,0.1);
+      border-radius: 14px;
+      padding: 1.7rem 1.6rem;
+      box-shadow: 0 12px 30px rgba(13,43,85,0.06);
+    }
+    .tcard-text {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--navy);
+    }
+    .tcard-foot { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.3rem; }
+    .tcard-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-sans); font-weight: 600; font-size: 0.82rem;
+      flex: none;
+    }
+    .tcard-name { font-family: var(--font-sans); font-weight: 600; font-size: 0.85rem; color: var(--navy); letter-spacing: 0.02em; }
+    .tcard-stars { color: var(--gold); font-size: 0.75rem; letter-spacing: 1px; margin-top: 2px; }
+    @media (max-width: 1024px) { .tcol--3 { display: none; } }
+    @media (max-width: 768px) {
+      .tcol--2 { display: none; }
+      .tcol { width: 86vw; max-width: 360px; }
+      .tcols { max-height: 560px; }
+    }
+
+    /* ── Before / After slider ────────────────────────────────────── */
+    #transformation { padding: 7rem 0; background: var(--white); }
+    .ba-wrap { max-width: 900px; margin: 3rem auto 0; }
+    .ba {
+      position: relative;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      border-radius: 10px;
+      border: 1px solid rgba(13,43,85,0.1);
+      touch-action: none;
+      user-select: none;
+      cursor: col-resize;
+    }
+    .ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+    .ba-before { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); will-change: clip-path; transition: clip-path 0.12s ease-out; }
+    .ba-divider {
+      position: absolute; top: 0; bottom: 0; left: 50%;
+      width: 3px; background: var(--gold);
+      transform: translateX(-50%);
+      box-shadow: 0 0 12px rgba(0,0,0,0.35);
+      pointer-events: none;
+      transition: left 0.12s ease-out;
+    }
+    .ba-handle {
+      position: absolute; top: 50%; left: 50%;
+      width: 48px; height: 48px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: var(--navy);
+      border: 2px solid var(--gold);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold);
+      font-size: 1rem;
+    }
+    .ba-label {
+      position: absolute; top: 1rem;
+      font-family: var(--font-sans);
+      font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: #fff;
+      background: rgba(0,0,0,0.4);
+      padding: 0.4rem 0.8rem; border-radius: 20px;
+      pointer-events: none;
+    }
+    .ba-label.before { left: 1rem; }
+    .ba-label.after { right: 1rem; }
+
+    /* ── Expanding hover grid ─────────────────────────────────────── */
+    .dgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      gap: 8px;
+      aspect-ratio: 1 / 1;
+      max-width: 840px;
+      margin: 3.2rem auto 0;
+      transition: grid-template-columns 0.45s ease, grid-template-rows 0.45s ease;
+    }
+    .dcell {
+      position: relative;
+      overflow: hidden;
+      border-radius: 6px;
+      cursor: pointer;
+      min-width: 0; min-height: 0;
+    }
+    .dcell img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .dcell:hover img { transform: scale(1.06); }
+    .dcell-label {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 1.1rem 1rem;
+      background: linear-gradient(to top, rgba(13,43,85,0.8), transparent);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .dcell:hover .dcell-label { opacity: 1; }
+    @media (max-width: 640px) {
+      .dgrid {
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: none !important;
+        aspect-ratio: auto;
+      }
+      .dcell { aspect-ratio: 1 / 1; }
+      .dcell-label { opacity: 1; font-size: 0.6rem; }
+    }
+
+    /* ── Hero intro: blueprint reveal (plays once on load) ────────── */
+    .hero-intro {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      animation: heroIntroOut 1.4s ease 2.6s forwards;
+    }
+    .hero-intro .bp-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.045) 1px, transparent 1px),
+        linear-gradient(rgba(201,168,76,0.11) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.11) 1px, transparent 1px);
+      background-size: 22px 22px, 22px 22px, 110px 110px, 110px 110px;
+      opacity: 0;
+      animation: heroSoftIn 1.3s ease forwards;
+    }
+    .hero-intro .bp-anno {
+      fill: var(--gold);
+      opacity: 0.72;
+      font-family: var(--font-sans);
+      font-weight: 500;
+    }
+    .hero-intro svg {
+      width: min(68%, 660px);
+      height: auto;
+      position: relative;
+      opacity: 0;
+      animation: heroSoftIn 1.5s ease 0.2s forwards;
+    }
+    .hero-intro .bp-line {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 1.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.85;
+      stroke-dasharray: 1400;
+      stroke-dashoffset: 1400;
+      animation: heroDraw 2.3s ease 0.25s forwards;
+    }
+    @keyframes heroDraw { to { stroke-dashoffset: 0; } }
+    @keyframes heroSoftIn { to { opacity: 1; } }
+    @keyframes heroIntroOut { to { opacity: 0; visibility: hidden; } }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-intro { animation: none; opacity: 0; visibility: hidden; }
+      .hero-intro .bp-line { animation: none; }
+    }
+
+    /* ── Coverflow gallery ────────────────────────────────────────── */
+    .cf { position: relative; max-width: 1000px; margin: 3.5rem auto 0; }
+    .cf-stage {
+      position: relative;
+      height: clamp(240px, 42vw, 360px);
+      perspective: 1400px;
+    }
+    .cf-card {
+      position: absolute;
+      top: 0; left: 50%;
+      width: clamp(220px, 34vw, 340px);
+      height: clamp(220px, 34vw, 340px);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--navy);
+      box-shadow: 0 24px 60px rgba(13,43,85,0.4);
+      transition: transform 0.55s cubic-bezier(.22,1,.3,1), opacity 0.55s ease;
+      will-change: transform, opacity;
+      cursor: pointer;
+    }
+    .cf-card img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+    .cf-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      box-shadow: inset 0 0 0 0 rgba(201,168,76,0);
+      transition: box-shadow 0.45s ease;
+      pointer-events: none;
+    }
+    .cf-card.is-center::after { box-shadow: inset 0 0 0 2px var(--gold); }
+    .cf-nav {
+      position: absolute; top: 50%;
+      transform: translateY(-50%);
+      z-index: 200;
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: rgba(13,43,85,0.72);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      cursor: pointer;
+      font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s ease;
+    }
+    .cf-nav:hover { background: var(--navy); }
+    .cf-prev { left: 0.5rem; }
+    .cf-next { right: 0.5rem; }
+    .cf-caption {
+      text-align: center;
+      margin-top: 1.6rem;
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 1.35rem;
+      letter-spacing: 0.01em;
+      color: var(--navy);
+      min-height: 1.5em;
+    }
+    @media (max-width: 640px) { .cf-nav { width: 40px; height: 40px; } }
+
+    /* ── Light / beige luxury header (remove this block to revert to navy) ── */
+    #navbar { background: #efe9df; box-shadow: 0 1px 0 rgba(13,43,85,0.08); }
+    #navbar.scrolled { background: #efe9df; box-shadow: 0 2px 18px rgba(13,43,85,0.10); backdrop-filter: none; }
+    .nav-logo-text .name { color: #1a1a1a; }
+    .nav-logo-text .tagline { color: #9a7d2e; }
+    .nav-links a { color: #2a2a2a; }
+    .nav-links a:hover { color: #000; }
+    .lang-switch button { color: #6a6a6a; }
+    .lang-switch button.active { color: #1a1a1a; }
+    .lang-switch .sep { color: rgba(0,0,0,0.25); }
+    .hamburger span { background: #1a1a1a; }
+
+    /* ── Page loader ──────────────────────────────────────────────── */
+    .preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+    }
+    .preloader.hidden { opacity: 0; visibility: hidden; }
+    .pl-mark {
+      position: relative;
+      width: 128px; height: 128px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pl-mark img {
+      width: 66px; height: 66px;
+      object-fit: contain;
+      animation: plPulse 1.8s ease-in-out infinite;
+    }
+    .pl-ring {
+      position: absolute; inset: 0;
+      border: 2px solid rgba(201,168,76,0.16);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: plSpin 0.95s linear infinite;
+    }
+    .pl-word {
+      position: absolute;
+      bottom: -46px; left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-sans);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.85);
+      white-space: nowrap;
+    }
+    @keyframes plSpin { to { transform: rotate(360deg); } }
+    @keyframes plPulse { 0%,100% { opacity: 0.75; } 50% { opacity: 1; } }
   </style>
 </head>
 <body>
+
+  <!-- ── Page loader ────────────────────────────────────────────── -->
+  <div class="preloader" id="preloader">
+    <div class="pl-mark">
+      <img src="images/logo.png" alt="AG Barboza Corporation" />
+      <div class="pl-ring"></div>
+      <span class="pl-word">AG Barboza Corporation</span>
+    </div>
+  </div>
 
   <!-- ── Floating WhatsApp button (mobile only) ─────────────────── -->
   <a class="wa-float" href="https://wa.me/19546051856" target="_blank" rel="noopener"
@@ -1351,8 +1865,8 @@
         <a href="#hero" class="nav-logo">
           <img src="images/logo.png" alt="AG Barboza Corporation Logo" />
           <div class="nav-logo-text">
-            <div class="name">AG Barboza Corporation</div>
-            <div class="tagline" data-i18n="nav_tagline">South Florida · Est. 2008</div>
+            <div class="name">Barboza</div>
+            <div class="tagline" data-i18n="nav_tagline">Corporation · South Florida</div>
           </div>
         </a>
         <ul class="nav-links">
@@ -1391,12 +1905,74 @@
 
   <!-- ── Hero ───────────────────────────────────────────────────── -->
   <section id="hero">
-    <div class="hero-slides">
-      <div class="hero-slide active" style="background-image:url('images/project-3.jpg')"></div>
-      <div class="hero-slide" style="background-image:url('images/project-6.jpg')"></div>
-      <div class="hero-slide" style="background-image:url('images/project-5.jpg')"></div>
-      <div class="hero-slide" style="background-image:url('images/project-2.jpg')"></div>
+    <div class="hero-intro" aria-hidden="true">
+      <div class="bp-grid"></div>
+      <svg viewBox="0 0 800 460" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <polyline class="bp-line" points="40,55 40,410 760,410 760,55"/>
+          <rect class="bp-line" x="350" y="58" width="80" height="40" rx="6"/>
+          <rect class="bp-line" x="362" y="66" width="56" height="24" rx="3"/>
+          <line class="bp-line" x1="70" y1="250" x2="155" y2="250"/>
+          <line class="bp-line" x1="70" y1="300" x2="155" y2="300"/>
+          <rect class="bp-line" x="60" y="246" width="10" height="8"/>
+          <rect class="bp-line" x="60" y="296" width="10" height="8"/>
+          <rect class="bp-line" x="165" y="95" width="300" height="315"/>
+          <line class="bp-line" x1="315" y1="95" x2="315" y2="410"/>
+          <rect class="bp-line" x="380" y="205" width="60" height="150"/>
+          <line class="bp-line" x1="380" y1="285" x2="440" y2="285"/>
+          <rect class="bp-line" x="285" y="150" width="80" height="20"/>
+          <line class="bp-line" x1="325" y1="150" x2="325" y2="118"/>
+          <line class="bp-line" x1="475" y1="200" x2="475" y2="330"/>
+          <rect class="bp-line" x="468" y="248" width="14" height="26" rx="3"/>
+          <rect class="bp-line" x="466" y="350" width="18" height="18"/>
+          <polygon class="bp-line" points="223,388 216.5,399.3 203.5,399.3 197,388 203.5,376.7 216.5,376.7"/>
+          <polygon class="bp-line" points="249,388 242.5,399.3 229.5,399.3 223,388 229.5,376.7 242.5,376.7"/>
+          <polygon class="bp-line" points="275,388 268.5,399.3 255.5,399.3 249,388 255.5,376.7 268.5,376.7"/>
+          <rect class="bp-line" x="300" y="383" width="14" height="14"/>
+          <path class="bp-line" d="M505,300 Q505,286 524,286 L566,286 Q585,286 585,300 L585,342 Q585,362 566,364 L524,364 Q505,362 505,342 Z"/>
+          <line class="bp-line" x1="512" y1="320" x2="578" y2="320"/>
+          <rect class="bp-line" x="600" y="300" width="160" height="16"/>
+          <ellipse class="bp-line" cx="680" cy="300" rx="52" ry="9"/>
+          <rect class="bp-line" x="606" y="316" width="148" height="58"/>
+          <line class="bp-line" x1="606" y1="345" x2="754" y2="345"/>
+          <path class="bp-line" d="M680,300 L680,278 Q680,270 688,270 L700,270"/>
+          <rect class="bp-line" x="672" y="110" width="86" height="150" rx="2"/>
+          <circle class="bp-line" cx="645" cy="100" r="7"/>
+          <line class="bp-line" x1="645" y1="107" x2="645" y2="120"/>
+          <line class="bp-line" x1="18" y1="55" x2="40" y2="55"/>
+          <line class="bp-line" x1="40" y1="33" x2="40" y2="55"/>
+          <line class="bp-line" x1="782" y1="55" x2="760" y2="55"/>
+          <line class="bp-line" x1="760" y1="33" x2="760" y2="55"/>
+          <line class="bp-line" x1="18" y1="410" x2="40" y2="410"/>
+          <line class="bp-line" x1="40" y1="432" x2="40" y2="410"/>
+          <line class="bp-line" x1="26" y1="95" x2="26" y2="410"/>
+          <line class="bp-line" x1="20" y1="101" x2="32" y2="89"/>
+          <line class="bp-line" x1="20" y1="416" x2="32" y2="404"/>
+          <text class="bp-anno" x="15" y="255" font-size="11" letter-spacing="1" transform="rotate(-90 15 255)" text-anchor="middle">2.60 M</text>
+          <line class="bp-line" x1="60" y1="432" x2="470" y2="432"/>
+          <line class="bp-line" x1="54" y1="438" x2="66" y2="426"/>
+          <line class="bp-line" x1="464" y1="438" x2="476" y2="426"/>
+          <text class="bp-anno" x="265" y="425" font-size="11" letter-spacing="1" text-anchor="middle">3.40 M</text>
+          <rect class="bp-line" x="512" y="416" width="248" height="38"/>
+          <line class="bp-line" x1="512" y1="434" x2="760" y2="434"/>
+          <line class="bp-line" x1="648" y1="434" x2="648" y2="454"/>
+          <line class="bp-line" x1="704" y1="434" x2="704" y2="454"/>
+          <text class="bp-anno" x="519" y="429" font-size="10.5" letter-spacing="1.5">AG BARBOZA CORPORATION</text>
+          <text class="bp-anno" x="519" y="448" font-size="8.5" letter-spacing="1">BATH · ELEVATION</text>
+          <text class="bp-anno" x="676" y="448" font-size="8.5" letter-spacing="1" text-anchor="middle">1:20</text>
+          <text class="bp-anno" x="732" y="448" font-size="8.5" letter-spacing="1" text-anchor="middle">A-01</text>
+        </g>
+      </svg>
     </div>
+    <div class="hero-slides">
+      <div class="hero-slide active" style="background-image:url('images/lux-blue-marble.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('images/lux-glass-shower.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('images/lux-wood-vanity.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('images/lux-soaking-tub.jpg')"></div>
+    </div>
+    <video class="hero-video" autoplay muted loop playsinline poster="images/hero-fireplace.jpg">
+      <source src="images/hero-video.mp4" type="video/mp4" />
+    </video>
     <div class="hero-overlay"></div>
     <div class="hero-content reveal">
       <p class="hero-eyebrow" data-i18n="hero_eyebrow">South Florida's Trusted Family Renovation Company</p>
@@ -1468,10 +2044,10 @@
     <div class="container">
       <div class="about-grid">
         <div class="about-image-stack reveal">
-          <img class="about-img-main" src="images/project-4.jpg" alt="AG Barboza luxury bathroom renovation" />
-          <img class="about-img-accent" src="images/project-1.jpg" alt="AG Barboza renovation detail" />
+          <img class="about-img-main" src="images/project-4.jpg" alt="AG Barboza luxury bathroom renovation" data-parallax="34" />
+          <img class="about-img-accent" src="images/project-1.jpg" alt="AG Barboza renovation detail" data-parallax="-46" />
           <div class="about-badge">
-            <div class="years">18+</div>
+            <div class="years" data-count="18">18+</div>
             <div class="yrs-label" data-i18n="badge_yrs">Years of<br/>Excellence</div>
           </div>
         </div>
@@ -1507,30 +2083,41 @@
           This is more than a business — it is a family. Every project carries our name, and we treat it that way.
         </p>
       </div>
-      <div class="family-grid">
-        <div class="family-card reveal">
-          <div class="family-card-body">
-            <div class="family-avatar">AB</div>
-            <h3 class="family-name">Anthony Barboza</h3>
-            <p class="family-role" data-i18n="anthony_role">Founder · Owner · Lead Craftsman</p>
-            <span class="gold-line center" style="width:2rem;"></span>
-            <p class="family-bio" data-i18n="anthony_bio">
-              Anthony built this company from the ground up — one referral, one transformed home at a time. With 18+ years of hands-on experience in South Florida, he personally leads every project from start to finish. A native Spanish speaker with a sharp eye for detail and a creative vision, he will be in your home from the first estimate to the final walkthrough.
-            </p>
+      <div class="kteam reveal" id="kteam">
+        <div class="kteam-row" data-photo="images/anthony.jpg">
+          <div class="kteam-line">
+            <span class="kteam-idx">01</span>
+            <h3 class="kteam-name">Anthony Barboza</h3>
+            <span class="kteam-role" data-i18n="anthony_role">Founder · Owner · Lead Craftsman</span>
+            <span class="kteam-plus" aria-hidden="true"></span>
+          </div>
+          <div class="kteam-panel">
+            <div class="kteam-panel-inner">
+              <img class="kteam-photo-inline" src="images/anthony.jpg" alt="Anthony Barboza" loading="lazy" />
+              <p class="kteam-bio" data-i18n="anthony_bio">
+                Anthony built this company from the ground up — one referral, one transformed home at a time. With 18+ years of hands-on experience in South Florida, he personally leads every project from start to finish. A native Spanish speaker with a sharp eye for detail and a creative vision, he will be in your home from the first estimate to the final walkthrough.
+              </p>
+            </div>
           </div>
         </div>
-        <div class="family-card reveal">
-          <div class="family-card-body">
-            <div class="family-avatar">VB</div>
-            <h3 class="family-name">Valeria Barboza</h3>
-            <p class="family-role" data-i18n="valeria_role">Brand &amp; Design · Bilingual Coordinator · Business Assistant</p>
-            <span class="gold-line center" style="width:2rem;"></span>
-            <p class="family-bio" data-i18n="valeria_bio">
-              Valeria is Anthony's daughter and the voice behind the brand. Fluent in both English and Spanish, she bridges every gap — from client communication and project coordination to leading the design and creative direction that shape the company's modern presence. With Valeria involved, you always have someone to call, someone who cares, and someone who will follow through.
-            </p>
+        <div class="kteam-row" data-photo="images/valeria.jpg">
+          <div class="kteam-line">
+            <span class="kteam-idx">02</span>
+            <h3 class="kteam-name">Valeria Barboza</h3>
+            <span class="kteam-role" data-i18n="valeria_role">Brand &amp; Design · Bilingual Coordinator · Business Assistant</span>
+            <span class="kteam-plus" aria-hidden="true"></span>
+          </div>
+          <div class="kteam-panel">
+            <div class="kteam-panel-inner">
+              <img class="kteam-photo-inline" src="images/valeria.jpg" alt="Valeria Barboza" loading="lazy" />
+              <p class="kteam-bio" data-i18n="valeria_bio">
+                Valeria is Anthony's daughter and the voice behind the brand. Fluent in both English and Spanish, she bridges every gap — from client communication and project coordination to leading the design and creative direction that shape the company's modern presence. With Valeria involved, you always have someone to call, someone who cares, and someone who will follow through.
+              </p>
+            </div>
           </div>
         </div>
       </div>
+      <div class="kteam-cursor" id="kteamCursor" aria-hidden="true"><img id="kteamCursorImg" src="images/anthony.jpg" alt="" /></div>
 
       <div class="family-feature reveal">
         <img src="images/family.jpg" alt="The Barboza family" />
@@ -1604,35 +2191,20 @@
           Every project in our portfolio was built by Anthony — personally. These are South Florida homes we are proud to put our name on.
         </p>
       </div>
-      <div class="marquee-rows reveal">
-        <div class="marquee">
-          <div class="marquee-track">
-            <img src="images/project-3.jpg" alt="Luxury bathroom renovation with gold fixtures" loading="lazy" />
-            <img src="images/project-2.jpg" alt="Marble shower with blue stone tile" loading="lazy" />
-            <img src="images/project-7.jpg" alt="Modern bathroom vanity" loading="lazy" />
-            <img src="images/project-4.jpg" alt="Marble shower enclosure with glass" loading="lazy" />
-            <img src="images/project-6.jpg" alt="Freestanding bathtub with marble surround" loading="lazy" />
-            <img src="images/project-3.jpg" alt="" aria-hidden="true" loading="lazy" />
-            <img src="images/project-2.jpg" alt="" aria-hidden="true" loading="lazy" />
-            <img src="images/project-7.jpg" alt="" aria-hidden="true" loading="lazy" />
-            <img src="images/project-4.jpg" alt="" aria-hidden="true" loading="lazy" />
-            <img src="images/project-6.jpg" alt="" aria-hidden="true" loading="lazy" />
-          </div>
+      <div class="cf reveal" id="cf">
+        <div class="cf-stage">
+          <div class="cf-card" data-title="Blue Onyx Shower" data-title-es="Ducha de Ónix Azul"><img src="images/lux-walk-in.jpg" alt="Blue onyx and calacatta marble shower with gold rain head" loading="lazy" /></div>
+          <div class="cf-card" data-title="Wood Vanity Suite" data-title-es="Suite con Tocador de Madera"><img src="images/lux-wood-vanity.jpg" alt="Marble bathroom with floating wood vanity and gold fixtures" loading="lazy" /></div>
+          <div class="cf-card" data-title="Blue Marble Master Bath" data-title-es="Baño Principal de Mármol Azul"><img src="images/lux-blue-marble.jpg" alt="Blue-veined marble master bathroom with gold fixtures" loading="lazy" /></div>
+          <div class="cf-card" data-title="Luxury Soaking Tub" data-title-es="Bañera de Lujo"><img src="images/lux-soaking-tub.jpg" alt="Freestanding soaking tub in marble bathroom" loading="lazy" /></div>
+          <div class="cf-card" data-title="Marble Rain Shower" data-title-es="Ducha de Mármol"><img src="images/lux-glass-shower.jpg" alt="Glass-enclosed marble shower with gold rain head" loading="lazy" /></div>
+          <div class="cf-card" data-title="Gold Marble Bath" data-title-es="Baño de Mármol Dorado"><img src="images/lux-led-mirror.jpg" alt="Gold marble bathroom with LED mirror and blue accent shower" loading="lazy" /></div>
+          <div class="cf-card" data-title="Navy Double Vanity" data-title-es="Doble Lavabo Azul Marino"><img src="images/lux-double-vanity.jpg" alt="Navy fluted double vanity with white marble shower" loading="lazy" /></div>
+          <div class="cf-card" data-title="Modern Gray Bath" data-title-es="Baño Gris Moderno"><img src="images/lux-modern.jpg" alt="Modern gray-striped bathroom with double vanity and LED mirror" loading="lazy" /></div>
         </div>
-        <div class="marquee">
-          <div class="marquee-track reverse">
-            <img src="images/project-1.jpg" alt="Full bathroom renovation" loading="lazy" />
-            <img src="images/project-5.jpg" alt="Walk-in shower with ceiling rain head" loading="lazy" />
-            <img src="images/project-8.jpg" alt="Contemporary bathroom remodel" loading="lazy" />
-            <img src="images/project-9.jpg" alt="Modern tile bathroom" loading="lazy" />
-            <img src="images/project-10.jpg" alt="Luxury marble bathroom with wood vanity and gold fixtures" loading="lazy" />
-            <img src="images/project-1.jpg" alt="" aria-hidden="true" loading="lazy" />
-            <img src="images/project-5.jpg" alt="" aria-hidden="true" loading="lazy" />
-            <img src="images/project-8.jpg" alt="" aria-hidden="true" loading="lazy" />
-            <img src="images/project-9.jpg" alt="" aria-hidden="true" loading="lazy" />
-            <img src="images/project-10.jpg" alt="" aria-hidden="true" loading="lazy" />
-          </div>
-        </div>
+        <button class="cf-nav cf-prev" aria-label="Previous">&#8249;</button>
+        <button class="cf-nav cf-next" aria-label="Next">&#8250;</button>
+        <p class="cf-caption" id="cfCaption"></p>
       </div>
     </div>
   </section>
@@ -1644,6 +2216,29 @@
     <img id="lbImg" src="" alt="" />
     <button class="lb-arrow lb-next" id="lbNext">&#8250;</button>
   </div>
+
+  <!-- ── Before / After ─────────────────────────────────────────── -->
+  <section id="transformation">
+    <div class="container">
+      <div class="reveal" style="text-align:center;">
+        <p class="section-eyebrow" data-i18n="ba_eyebrow">The Transformation</p>
+        <h2 class="section-title" data-i18n="ba_title">From Vision to <em>Finished</em></h2>
+        <span class="gold-line center"></span>
+        <p class="section-body" style="max-width:540px;margin:0 auto;" data-i18n="ba_body">
+          Drag the slider to see the difference — from the raw space to the finished result our families come home to.
+        </p>
+      </div>
+      <div class="ba-wrap reveal">
+        <div class="ba" id="ba1">
+          <img class="ba-after-img" src="images/lux-efficiency-after.jpg" alt="Garage converted into a finished efficiency with bed and kitchen" />
+          <div class="ba-before"><img src="images/lux-garage-before.jpg" alt="Garage before renovation — bare framing and concrete" /></div>
+          <div class="ba-divider"><div class="ba-handle">&#8646;</div></div>
+          <span class="ba-label before" data-i18n="ba_before">Before</span>
+          <span class="ba-label after" data-i18n="ba_after">After</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ── Why Choose Us ──────────────────────────────────────────── -->
   <section id="why">
@@ -1744,21 +2339,36 @@
         <h2 class="section-title" data-i18n="test_title">What Our <em>Families</em> Say</h2>
         <span class="gold-line center"></span>
       </div>
-      <div class="testimonials-grid">
-        <div class="testimonial-card reveal">
-          <p class="testimonial-text" data-i18n="test1_text">AG Barboza Corporation delivers exceptional results. I'm consistently impressed by how quickly they can transform any space. You share your vision with them, and they bring it to life with professionalism, dedication, and meticulous attention to detail. I highly recommend them.</p>
-          <p class="testimonial-author" data-i18n="test1_author">— Adriana Fortuna</p>
-          <div class="stars">★★★★★</div>
+      <div class="tcols reveal">
+        <div class="tcol">
+          <div class="tcol-track" style="animation-duration:26s;">
+            <div class="tcard"><p class="tcard-text" data-i18n="test1_text">AG Barboza Corporation delivers exceptional results. I'm consistently impressed by how quickly they can transform any space. You share your vision with them, and they bring it to life with professionalism, dedication, and meticulous attention to detail. I highly recommend them.</p><div class="tcard-foot"><span class="tcard-avatar">AF</span><div><div class="tcard-name">Adriana Fortuna</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard"><p class="tcard-text">Estoy muy contenta con su ética de trabajo. He tenido contratistas que dejan todo sucio e incluso dañado, pero Anthony fue cuidadoso, cubrió todo con plástico, limpió todos los días, cumplió con el plazo prometido y el trabajo quedó excelente. Muy recomendado; su precio es razonable y muy acorde con la calidad que entrega.</p><div class="tcard-foot"><span class="tcard-avatar">JR</span><div><div class="tcard-name">Judith Robles</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard"><p class="tcard-text" data-i18n="test3_text">The quality of work, communication, and dedication to excellence exceeded all my expectations. If you're looking for someone who is talented, reliable, and passionate about what they do, I highly recommend AG Barboza Corporation. Thank you for the outstanding work!</p><div class="tcard-foot"><span class="tcard-avatar">SO</span><div><div class="tcard-name">Sebastian Ortiz</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard" aria-hidden="true"><p class="tcard-text" data-i18n="test1_text">AG Barboza Corporation delivers exceptional results. I'm consistently impressed by how quickly they can transform any space. You share your vision with them, and they bring it to life with professionalism, dedication, and meticulous attention to detail. I highly recommend them.</p><div class="tcard-foot"><span class="tcard-avatar">AF</span><div><div class="tcard-name">Adriana Fortuna</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard" aria-hidden="true"><p class="tcard-text">Estoy muy contenta con su ética de trabajo. He tenido contratistas que dejan todo sucio e incluso dañado, pero Anthony fue cuidadoso, cubrió todo con plástico, limpió todos los días, cumplió con el plazo prometido y el trabajo quedó excelente. Muy recomendado; su precio es razonable y muy acorde con la calidad que entrega.</p><div class="tcard-foot"><span class="tcard-avatar">JR</span><div><div class="tcard-name">Judith Robles</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard" aria-hidden="true"><p class="tcard-text" data-i18n="test3_text">The quality of work, communication, and dedication to excellence exceeded all my expectations. If you're looking for someone who is talented, reliable, and passionate about what they do, I highly recommend AG Barboza Corporation. Thank you for the outstanding work!</p><div class="tcard-foot"><span class="tcard-avatar">SO</span><div><div class="tcard-name">Sebastian Ortiz</div><div class="tcard-stars">★★★★★</div></div></div></div>
+          </div>
         </div>
-        <div class="testimonial-card reveal">
-          <p class="testimonial-text">Estoy muy contenta con su ética de trabajo. He tenido contratistas que dejan todo sucio e incluso dañado, pero Anthony fue cuidadoso, cubrió todo con plástico, limpió todos los días, cumplió con el plazo prometido y el trabajo quedó excelente. Muy recomendado; su precio es razonable y muy acorde con la calidad que entrega.</p>
-          <p class="testimonial-author">— Judith Robles</p>
-          <div class="stars">★★★★★</div>
+        <div class="tcol tcol--2">
+          <div class="tcol-track" style="animation-duration:32s;">
+            <div class="tcard"><p class="tcard-text">Estoy muy contenta con su ética de trabajo. He tenido contratistas que dejan todo sucio e incluso dañado, pero Anthony fue cuidadoso, cubrió todo con plástico, limpió todos los días, cumplió con el plazo prometido y el trabajo quedó excelente. Muy recomendado; su precio es razonable y muy acorde con la calidad que entrega.</p><div class="tcard-foot"><span class="tcard-avatar">JR</span><div><div class="tcard-name">Judith Robles</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard"><p class="tcard-text" data-i18n="test3_text">The quality of work, communication, and dedication to excellence exceeded all my expectations. If you're looking for someone who is talented, reliable, and passionate about what they do, I highly recommend AG Barboza Corporation. Thank you for the outstanding work!</p><div class="tcard-foot"><span class="tcard-avatar">SO</span><div><div class="tcard-name">Sebastian Ortiz</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard"><p class="tcard-text" data-i18n="test1_text">AG Barboza Corporation delivers exceptional results. I'm consistently impressed by how quickly they can transform any space. You share your vision with them, and they bring it to life with professionalism, dedication, and meticulous attention to detail. I highly recommend them.</p><div class="tcard-foot"><span class="tcard-avatar">AF</span><div><div class="tcard-name">Adriana Fortuna</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard" aria-hidden="true"><p class="tcard-text">Estoy muy contenta con su ética de trabajo. He tenido contratistas que dejan todo sucio e incluso dañado, pero Anthony fue cuidadoso, cubrió todo con plástico, limpió todos los días, cumplió con el plazo prometido y el trabajo quedó excelente. Muy recomendado; su precio es razonable y muy acorde con la calidad que entrega.</p><div class="tcard-foot"><span class="tcard-avatar">JR</span><div><div class="tcard-name">Judith Robles</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard" aria-hidden="true"><p class="tcard-text" data-i18n="test3_text">The quality of work, communication, and dedication to excellence exceeded all my expectations. If you're looking for someone who is talented, reliable, and passionate about what they do, I highly recommend AG Barboza Corporation. Thank you for the outstanding work!</p><div class="tcard-foot"><span class="tcard-avatar">SO</span><div><div class="tcard-name">Sebastian Ortiz</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard" aria-hidden="true"><p class="tcard-text" data-i18n="test1_text">AG Barboza Corporation delivers exceptional results. I'm consistently impressed by how quickly they can transform any space. You share your vision with them, and they bring it to life with professionalism, dedication, and meticulous attention to detail. I highly recommend them.</p><div class="tcard-foot"><span class="tcard-avatar">AF</span><div><div class="tcard-name">Adriana Fortuna</div><div class="tcard-stars">★★★★★</div></div></div></div>
+          </div>
         </div>
-        <div class="testimonial-card reveal">
-          <p class="testimonial-text" data-i18n="test3_text">The quality of work, communication, and dedication to excellence exceeded all my expectations. If you're looking for someone who is talented, reliable, and passionate about what they do, I highly recommend AG Barboza Corporation. Thank you for the outstanding work!</p>
-          <p class="testimonial-author" data-i18n="test3_author">— Sebastian Ortiz</p>
-          <div class="stars">★★★★★</div>
+        <div class="tcol tcol--3">
+          <div class="tcol-track" style="animation-duration:29s;">
+            <div class="tcard"><p class="tcard-text" data-i18n="test3_text">The quality of work, communication, and dedication to excellence exceeded all my expectations. If you're looking for someone who is talented, reliable, and passionate about what they do, I highly recommend AG Barboza Corporation. Thank you for the outstanding work!</p><div class="tcard-foot"><span class="tcard-avatar">SO</span><div><div class="tcard-name">Sebastian Ortiz</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard"><p class="tcard-text" data-i18n="test1_text">AG Barboza Corporation delivers exceptional results. I'm consistently impressed by how quickly they can transform any space. You share your vision with them, and they bring it to life with professionalism, dedication, and meticulous attention to detail. I highly recommend them.</p><div class="tcard-foot"><span class="tcard-avatar">AF</span><div><div class="tcard-name">Adriana Fortuna</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard"><p class="tcard-text">Estoy muy contenta con su ética de trabajo. He tenido contratistas que dejan todo sucio e incluso dañado, pero Anthony fue cuidadoso, cubrió todo con plástico, limpió todos los días, cumplió con el plazo prometido y el trabajo quedó excelente. Muy recomendado; su precio es razonable y muy acorde con la calidad que entrega.</p><div class="tcard-foot"><span class="tcard-avatar">JR</span><div><div class="tcard-name">Judith Robles</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard" aria-hidden="true"><p class="tcard-text" data-i18n="test3_text">The quality of work, communication, and dedication to excellence exceeded all my expectations. If you're looking for someone who is talented, reliable, and passionate about what they do, I highly recommend AG Barboza Corporation. Thank you for the outstanding work!</p><div class="tcard-foot"><span class="tcard-avatar">SO</span><div><div class="tcard-name">Sebastian Ortiz</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard" aria-hidden="true"><p class="tcard-text" data-i18n="test1_text">AG Barboza Corporation delivers exceptional results. I'm consistently impressed by how quickly they can transform any space. You share your vision with them, and they bring it to life with professionalism, dedication, and meticulous attention to detail. I highly recommend them.</p><div class="tcard-foot"><span class="tcard-avatar">AF</span><div><div class="tcard-name">Adriana Fortuna</div><div class="tcard-stars">★★★★★</div></div></div></div>
+            <div class="tcard" aria-hidden="true"><p class="tcard-text">Estoy muy contenta con su ética de trabajo. He tenido contratistas que dejan todo sucio e incluso dañado, pero Anthony fue cuidadoso, cubrió todo con plástico, limpió todos los días, cumplió con el plazo prometido y el trabajo quedó excelente. Muy recomendado; su precio es razonable y muy acorde con la calidad que entrega.</p><div class="tcard-foot"><span class="tcard-avatar">JR</span><div><div class="tcard-name">Judith Robles</div><div class="tcard-stars">★★★★★</div></div></div></div>
+          </div>
         </div>
       </div>
       <div style="text-align:center;margin-top:3rem;">
@@ -1999,6 +2609,27 @@
   </footer>
 
   <script>
+    // ── Page loader dismiss ──────────────────────────────────────
+    (function () {
+      const pl = document.getElementById('preloader');
+      if (!pl) return;
+      let done = false;
+      const hide = () => {
+        if (done) return;
+        done = true;
+        pl.classList.add('hidden');
+        setTimeout(() => { pl.style.display = 'none'; }, 750);
+      };
+      // Hide once the page has loaded, but show for at least 700ms so it never flickers.
+      const start = performance.now ? performance.now() : Date.now();
+      window.addEventListener('load', () => {
+        const elapsed = (performance.now ? performance.now() : Date.now()) - start;
+        setTimeout(hide, Math.max(0, 700 - elapsed));
+      });
+      // Safety net: never let the loader hang.
+      setTimeout(hide, 4500);
+    })();
+
     // ── Navbar scroll ────────────────────────────────────────────
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
@@ -2019,6 +2650,17 @@
       });
     });
 
+    // ── Hero intro cleanup (guaranteed removal so it never blocks) ─
+    (function () {
+      const intro = document.querySelector('.hero-intro');
+      if (!intro) return;
+      const remove = () => { intro.style.display = 'none'; };
+      intro.addEventListener('animationend', (e) => {
+        if (e.animationName === 'heroIntroOut') remove();
+      });
+      setTimeout(remove, 4600); // fallback if the animation is skipped or throttled
+    })();
+
     // ── Hero slideshow ───────────────────────────────────────────
     const slides = document.querySelectorAll('.hero-slide');
     let currentSlide = 0;
@@ -2026,7 +2668,7 @@
       slides[currentSlide].classList.remove('active');
       currentSlide = (currentSlide + 1) % slides.length;
       slides[currentSlide].classList.add('active');
-    }, 5000);
+    }, 8000);
 
     // ── Scroll reveal ────────────────────────────────────────────
     const observer = new IntersectionObserver((entries) => {
@@ -2037,6 +2679,198 @@
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Active nav link on scroll ────────────────────────────────
+    const navSectionIds = ['about', 'services', 'gallery', 'why', 'contact'];
+    const navLinkMap = {};
+    navSectionIds.forEach(id => {
+      navLinkMap[id] = document.querySelector('.nav-links a[href="#' + id + '"]');
+    });
+    function updateActiveNav() {
+      const line = window.scrollY + window.innerHeight * 0.35;
+      let current = null;
+      navSectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= line) current = id;
+      });
+      Object.values(navLinkMap).forEach(a => a && a.classList.remove('active'));
+      if (current && navLinkMap[current]) navLinkMap[current].classList.add('active');
+    }
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    updateActiveNav();
+
+    // ── Kinetic team list ────────────────────────────────────────
+    const kteam = document.getElementById('kteam');
+    if (kteam) {
+      const kRows = Array.from(kteam.querySelectorAll('.kteam-row'));
+      const kCursor = document.getElementById('kteamCursor');
+      const kCursorImg = document.getElementById('kteamCursorImg');
+      const kDesktop = () => window.innerWidth >= 768;
+      let kx = 0, ky = 0, ktx = 0, kty = 0;
+      window.addEventListener('mousemove', (e) => { ktx = e.clientX + 24; kty = e.clientY + 24; }, { passive: true });
+      (function kLoop() {
+        kx += (ktx - kx) * 0.16;
+        ky += (kty - ky) * 0.16;
+        if (kCursor) kCursor.style.transform = 'translate(' + kx + 'px,' + ky + 'px)';
+        requestAnimationFrame(kLoop);
+      })();
+      kRows.forEach(row => {
+        row.addEventListener('mouseenter', () => {
+          if (!kDesktop()) return;
+          if (kCursorImg) kCursorImg.src = row.dataset.photo;
+          if (kCursor) kCursor.classList.add('show');
+        });
+        row.addEventListener('mouseleave', () => {
+          if (!kDesktop()) return;
+          if (kCursor) kCursor.classList.remove('show');
+        });
+        row.querySelector('.kteam-line').addEventListener('click', () => {
+          const wasOpen = row.classList.contains('open');
+          kRows.forEach(r => r.classList.remove('open'));
+          if (!wasOpen) row.classList.add('open');
+        });
+      });
+    }
+
+    // ── Before / After slider ────────────────────────────────────
+    document.querySelectorAll('.ba').forEach(ba => {
+      const before = ba.querySelector('.ba-before');
+      const divider = ba.querySelector('.ba-divider');
+      const setPos = (clientX) => {
+        const rect = ba.getBoundingClientRect();
+        let pct = ((clientX - rect.left) / rect.width) * 100;
+        pct = Math.max(0, Math.min(100, pct));
+        before.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+        divider.style.left = pct + '%';
+      };
+      ba.addEventListener('mousemove', (e) => setPos(e.clientX));
+      ba.addEventListener('mouseleave', () => setPos(50));
+      ba.addEventListener('touchstart', (e) => setPos(e.touches[0].clientX), { passive: true });
+      ba.addEventListener('touchmove', (e) => setPos(e.touches[0].clientX), { passive: true });
+    });
+
+    // ── Coverflow gallery ────────────────────────────────────────
+    (function () {
+      const cf = document.getElementById('cf');
+      if (!cf) return;
+      const stage = cf.querySelector('.cf-stage');
+      const cards = Array.from(stage.querySelectorAll('.cf-card'));
+      const caption = document.getElementById('cfCaption');
+      const N = cards.length;
+      let center = 0;
+      let timer = null;
+      const wrap = (i) => ((i % N) + N) % N;
+      function paint() {
+        const w = cards[0].offsetWidth || 300;
+        const pitch = w * 0.52;
+        cards.forEach((card, i) => {
+          let off = i - center;
+          if (off > N / 2) off -= N;
+          if (off < -N / 2) off += N;
+          const dist = Math.abs(off);
+          const sign = Math.sign(off);
+          const tx = off * pitch;
+          const tz = -Math.min(dist, 3) * 130;
+          const ry = dist === 0 ? 0 : -sign * 48;
+          card.style.transform = 'translateX(calc(-50% + ' + tx + 'px)) translateZ(' + tz + 'px) rotateY(' + ry + 'deg)';
+          card.style.opacity = dist > 3 ? '0' : String(1 - dist * 0.16);
+          card.style.zIndex = String(100 - Math.round(dist));
+          card.classList.toggle('is-center', dist === 0);
+        });
+        if (caption) {
+          const active = cards[wrap(Math.round(center))];
+          const isES = document.documentElement.lang === 'es';
+          caption.textContent = (isES && active.dataset.titleEs) ? active.dataset.titleEs : active.dataset.title;
+        }
+      }
+      function go(i) { center = wrap(i); paint(); }
+      function stop() { if (timer) { clearInterval(timer); timer = null; } }
+      function start() { stop(); timer = setInterval(() => go(center + 1), 3800); }
+      cf.querySelector('.cf-prev').addEventListener('click', () => { go(center - 1); start(); });
+      cf.querySelector('.cf-next').addEventListener('click', () => { go(center + 1); start(); });
+      cards.forEach((card, i) => card.addEventListener('click', () => { if (wrap(Math.round(center)) !== i) { go(i); start(); } }));
+      let sx = null;
+      stage.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
+      stage.addEventListener('touchend', (e) => {
+        if (sx === null) return;
+        const dx = e.changedTouches[0].clientX - sx;
+        if (Math.abs(dx) > 40) { go(center + (dx < 0 ? 1 : -1)); start(); }
+        sx = null;
+      }, { passive: true });
+      cf.addEventListener('mouseenter', stop);
+      cf.addEventListener('mouseleave', start);
+      window.addEventListener('resize', paint);
+      window.addEventListener('agbLangChange', paint);
+      paint();
+      start();
+    })();
+
+    // ── Count-up numbers ─────────────────────────────────────────
+    (function () {
+      const counters = document.querySelectorAll('[data-count]');
+      if (!counters.length) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          const target = parseInt(el.dataset.count, 10) || 0;
+          let startTs = null;
+          const dur = 1500;
+          function step(ts) {
+            if (!startTs) startTs = ts;
+            const p = Math.min((ts - startTs) / dur, 1);
+            const val = Math.round(target * (1 - Math.pow(1 - p, 3)));
+            el.textContent = val + '+';
+            if (p < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+          io.unobserve(el);
+        });
+      }, { threshold: 0.5 });
+      counters.forEach((c) => io.observe(c));
+    })();
+
+    // ── Subtle image parallax ────────────────────────────────────
+    (function () {
+      const els = document.querySelectorAll('[data-parallax]');
+      if (!els.length) return;
+      let ticking = false;
+      function update() {
+        const vh = window.innerHeight;
+        els.forEach((el) => {
+          const r = el.getBoundingClientRect();
+          if (r.bottom < 0 || r.top > vh) return;
+          const delta = (r.top + r.height / 2 - vh / 2) / vh;
+          const f = parseFloat(el.dataset.parallax) || 0;
+          el.style.transform = 'translateY(' + (delta * f).toFixed(1) + 'px)';
+        });
+        ticking = false;
+      }
+      window.addEventListener('scroll', () => {
+        if (!ticking) { requestAnimationFrame(update); ticking = true; }
+      }, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
+    // ── Expanding hover grid ─────────────────────────────────────
+    const dgrid = document.getElementById('dgrid');
+    if (dgrid) {
+      const dcells = Array.from(dgrid.querySelectorAll('.dcell'));
+      const grow = '2.2fr', shrink = '0.9fr';
+      dcells.forEach((cell, i) => {
+        const row = Math.floor(i / 3), col = i % 3;
+        cell.addEventListener('mouseenter', () => {
+          if (window.innerWidth <= 640) return;
+          dgrid.style.gridTemplateColumns = [0, 1, 2].map(c => c === col ? grow : shrink).join(' ');
+          dgrid.style.gridTemplateRows = [0, 1, 2].map(r => r === row ? grow : shrink).join(' ');
+        });
+      });
+      dgrid.addEventListener('mouseleave', () => {
+        dgrid.style.gridTemplateColumns = '1fr 1fr 1fr';
+        dgrid.style.gridTemplateRows = '1fr 1fr 1fr';
+      });
+    }
 
     // ── Gallery lightbox ─────────────────────────────────────────
     const galleryImgs = Array.from(document.querySelectorAll('.gallery-item img')).map(img => img.src);
@@ -2115,7 +2949,7 @@
 
   <!-- ── Bilingual (EN/ES) engine ───────────────────────────────── -->
   <script>
-    const I18N_ES = {"nav_about": "Nosotros", "nav_services": "Servicios", "nav_gallery": "Galería", "nav_why": "Por Qué Nosotros", "nav_contact": "Contacto", "nav_tagline": "Sur de Florida · Desde 2008", "nav_cta": "Estimado Gratis", "mobile_cta": "Estimado Gratis — (954) 892-6059", "hero_eyebrow": "La Empresa Familiar de Renovación de Confianza del Sur de Florida", "hero_title": "\n        Usted lo <em>Sueña</em>,<br />Nosotros lo Construimos.\n      ", "hero_subtitle": "Renovación de hogares de lujo, construida sobre artesanía, integridad y familia.", "hero_cta1": "Solicite un Estimado Gratis", "hero_cta2": "Vea Nuestro Trabajo", "hero_scroll": "Desliza", "stat1": "Años de Experiencia", "stat2": "Por Recomendación", "stat3": "Idiomas", "stat4": "Costo de su Estimado", "badge_yrs": "Años de<br/>Excelencia", "about_eyebrow": "Nuestra Historia", "about_title": "Una Familia Construida sobre<br /><em>Confianza y Arte</em>", "about_p1": "\n            AG Barboza Corporation fue fundada por Anthony Barboza, un hombre que llegó al Sur de Florida desde Perú con un sueño y la disciplina para hacerlo realidad. Guiado por un amigo de confianza, Anthony descubrió no solo una profesión, sino una vocación. Desde 2008, su trabajo ha hablado por sí mismo, creciendo enteramente gracias a las recomendaciones de familias que confiaron en él dentro de sus hogares y nunca miraron atrás.\n          ", "about_p2": "\n            Anthony construyó esta empresa sobre una base sencilla: hacer el trabajo bien, tratar a cada cliente como familia y nunca comprometer la calidad. Durante más de 18 años, ese compromiso le ha dado algo que ningún anuncio puede comprar: una reputación que se difunde de boca en boca, un cliente satisfecho a la vez. En una industria donde la confianza es difícil de encontrar, AG Barboza Corporation ha construido su nombre sin tomar atajos.\n          ", "about_quote": "\n            \"La integridad lo es todo. Si la pierdes, lo pierdes todo. Eso nunca pasará aquí.\"\n            <span class=\"founder-sign\">Anthony Barboza</span>\n            <small class=\"founder-role\">Fundador y Maestro de Obra</small>\n          ", "about_cta": "Obtenga un Estimado Gratis", "family_eyebrow": "El Equipo Detrás del Trabajo", "family_title": "Conozca a la <em>Familia Barboza</em>", "family_intro": "\n          Esto es más que un negocio: es una familia. Cada proyecto lleva nuestro nombre, y así lo tratamos.\n        ", "anthony_role": "Fundador · Propietario · Maestro de Obra", "anthony_bio": "\n              Anthony construyó esta empresa desde cero, una recomendación y un hogar transformado a la vez. Con más de 18 años de experiencia práctica en el Sur de Florida, dirige personalmente cada proyecto de principio a fin. Hablante nativo de español, con un ojo agudo para el detalle y una visión creativa, estará en su hogar desde el primer estimado hasta la revisión final.\n            ", "valeria_role": "Marca y Diseño · Coordinadora Bilingüe · Asistente de Negocios", "valeria_bio": "\n              Valeria es la hija de Anthony y la voz detrás de la marca. Con dominio del inglés y el español, ella conecta cada detalle, desde la comunicación con los clientes y la coordinación de proyectos hasta liderar el diseño y la dirección creativa que dan forma a la presencia moderna de la empresa. Con Valeria, siempre tiene a alguien a quien llamar, alguien que se preocupa y que da seguimiento.\n            ", "ff_eyebrow": "Más Que una Empresa", "ff_title": "Una Familia en Quien Puede Confiar en Su Hogar", "ff_p": "Cuando contrata a AG Barboza Corporation, no contrata a un contratista cualquiera: da la bienvenida a nuestra familia dentro de la suya. Esa es una responsabilidad que nunca tomamos a la ligera.", "services_eyebrow": "Lo Que Hacemos", "services_title": "Renovación Interior <em>Completa</em>", "services_body": "\n          Si está dentro de su hogar, podemos transformarlo. Cada proyecto comienza con un estimado gratis, sin compromiso, sin presión, solo honestidad.\n        ", "svc1_name": "Renovación de Baños", "svc1_desc": "Nuestra especialidad. Desde suites principales hasta baños de visitas: remodelación completa con azulejo de porcelana, instalación de jacuzzi, bases de ducha, plomería e iluminación. Cada detalle, bien hecho.", "svc1_tag": "Más Solicitado", "svc2_name": "Remodelación de Cocinas", "svc2_desc": "Transformaciones completas de cocina: gabinetes, encimeras, azulejo de pared, ajustes de plomería e iluminación. Definimos cada proyecto según su visión y la elección de materiales.", "svc3_name": "Pisos", "svc3_desc": "Desde mármol y porcelana hasta laminado y madera. Instalamos pisos que complementan la estética completa de su hogar, con precios según los metros cuadrados y la complejidad del material.", "svc4_name": "Pintura y Acabados", "svc4_desc": "Pintura interior y exterior y acabados personalizados que unen todo el espacio: líneas limpias, capas uniformes y un resultado impecable que hace que cada habitación se sienta como nueva.", "svc5_name": "Conversión de Espacios", "svc5_desc": "Convierta su garaje en una habitación, una oficina o espacio adicional. Construcción completa que incluye estructura, tablaroca, electricidad, pisos y acabados.", "svc6_name": "Plomería y Electricidad", "svc6_desc": "Todo trabajo de renovación incluye plomería y electricidad profesional según se necesite: cambio de luminarias, instalación y ajuste de tuberías, e integración completa de los sistemas.", "services_cta": "Agende su Estimado Gratis", "gallery_eyebrow": "Nuestro Trabajo", "gallery_title": "La Calidad <em>Habla</em> por Sí Sola", "gallery_body": "\n          Cada proyecto de nuestro portafolio fue construido por Anthony, personalmente. Estos son hogares del Sur de Florida en los que nos enorgullece poner nuestro nombre.\n        ", "g1": "Baño Principal", "g2": "Ducha Personalizada", "g3": "Renovación de Baño", "g4": "Cancel de Vidrio", "g5": "Bañera de Lujo", "g6": "Renovación Completa", "g7": "Ducha Amplia", "g8": "Baño Contemporáneo", "g9": "Azulejo Moderno", "g10": "Baño Principal de Diseño", "why_eyebrow": "Por Qué AG Barboza", "why_title": "El Estándar Que <em>Nunca</em> Bajamos", "why1_title": "Integridad en Todo", "why1_text": "Los valores de Anthony son la base de este negocio. Precios honestos, alcance transparente y cero atajos. Nuestra palabra es nuestro contrato, y nuestro trabajo es la prueba.", "why2_title": "18+ Años, Por Recomendación", "why2_text": "Desde 2008 nunca hemos pagado por publicidad. Cada cliente llegó por otro cliente satisfecho. Ese es el único respaldo que importa.", "why3_title": "Servicio Bilingüe", "why3_text": "Atendemos a las comunidades de habla inglesa y española del Sur de Florida con el mismo cuidado. Usted siempre debe entender exactamente lo que sucede en su hogar.", "why4_title": "Estimado Gratis, Siempre", "why4_text": "Cada proyecto comienza con un estimado sin costo y sin compromiso. Usted conoce el número honesto antes de firmar cualquier contrato o iniciar cualquier trabajo.", "process_eyebrow": "Cómo Funciona", "process_title": "Simple. Honesto. <em>Bien Hecho.</em>", "step1_title": "Estimado Gratis", "step1_desc": "Llámenos o escríbanos. Visitamos su hogar, evaluamos el alcance completo del trabajo y le damos una cotización honesta y detallada, sin costo.", "step2_title": "Contrato Firmado", "step2_desc": "Una vez que aprueba el estimado, formalizamos todo en un contrato escrito. Sin sorpresas. Sin zonas grises. Solo claridad.", "step3_title": "Manos a la Obra", "step3_desc": "Anthony y su equipo de confianza llegan y ejecutan. 50% al inicio, 25% a la mitad, 25% al finalizar. Siempre estará informado.", "step4_title": "Revisión Final", "step4_desc": "Recorremos juntos el proyecto terminado. Cada detalle revisado. Cada inquietud atendida. No nos vamos hasta que esté orgulloso del resultado.", "test_eyebrow": "Historias de Clientes", "test_title": "Lo Que Dicen Nuestras <em>Familias</em>", "test1_text": "AG Barboza Corporation entrega resultados excepcionales. Siempre me impresiona la rapidez con la que transforman cualquier espacio. Uno les comparte su visión y ellos la hacen realidad con profesionalismo, dedicación y una atención meticulosa al detalle. Los recomiendo totalmente.", "test1_author": "— Adriana Fortuna", "test3_text": "La calidad del trabajo, la comunicación y la dedicación a la excelencia superaron todas mis expectativas. Si busca a alguien talentoso, confiable y apasionado por lo que hace, recomiendo totalmente a AG Barboza Corporation. ¡Gracias por el excelente trabajo!", "test3_author": "— Sebastian Ortiz", "cta_title": "Su Hogar Merece la<br /><em>Mejor Versión de Sí Mismo.</em>", "cta_sub": "Comience con un estimado gratis y sin compromiso de un contratista que será honesto con usted desde la primera conversación hasta el último azulejo.", "cta_btn1": "Solicite su Estimado Gratis", "cta_btn2": "Llámenos Ahora", "contact_eyebrow": "Contáctenos", "contact_title": "Hablemos de<br /><em>Su Hogar</em>", "contact_p": "Toda gran renovación comienza con una conversación honesta. Escríbanos y agendaremos un estimado gratis en el horario que más le convenga. Sin presión. Sin compromiso. Solo claridad.", "contact_loc": "Condado de Broward y Miami-Dade, Sur de Florida", "contact_hours": "Lun – Sáb: 8:00 AM – 6:00 PM", "form_title": "Solicite un Estimado Gratis", "form_sub": "Complete el formulario y nos pondremos en contacto dentro de 24 horas.", "label_first": "Nombre", "label_last": "Apellido", "label_phone": "Teléfono", "label_email": "Correo Electrónico", "label_service": "Servicio Necesitado", "label_message": "Cuéntenos Sobre Su Proyecto", "opt0": "Seleccione un servicio...", "opt_bath": "Renovación de Baños", "opt_kit": "Remodelación de Cocinas", "opt_floor": "Pisos", "opt_roof": "Pintura y Acabados", "opt_space": "Conversión de Espacios / Garaje", "opt_plumb": "Plomería o Electricidad", "opt_multi": "Múltiples Servicios / Renovación Completa", "opt_other": "Otro", "submit_btn": "\n              Enviar mi Solicitud de Estimado\n            ", "free_note": "&#10003; Estimado gratis &nbsp; &#10003; Sin compromiso &nbsp; &#10003; Respuesta en 24 horas", "social_eyebrow": "Manténgase Conectado", "social_title": "Siga Nuestro <em>Trabajo</em>", "social_p": "\n        Vea nuestros proyectos más recientes, antes y después, y transformaciones de renovación en Instagram y Facebook.\n      ", "footer_brand": "Empresa familiar de renovación de hogares del Sur de Florida. Atendemos el Condado de Broward y Miami-Dade con integridad, artesanía y atención bilingüe desde 2008.", "footer_tagline": "\"Usted lo sueña, nosotros lo construimos.\"", "footer_h_services": "Servicios", "footer_h_company": "Empresa", "f_bath": "Renovación de Baños", "f_kit": "Remodelación de Cocinas", "f_floor": "Pisos", "f_roof": "Pintura y Acabados", "f_space": "Conversión de Espacios", "f_plumb": "Plomería y Electricidad", "f_about": "Nosotros", "f_family": "Nuestra Familia", "f_gallery": "Galería", "f_why": "Por Qué Elegirnos", "f_contact": "Contacto", "footer_copy": "&copy; 2026 AG Barboza Corporation. Todos los derechos reservados.", "footer_loc": "Condado de Broward y Miami-Dade, Sur de Florida &nbsp;|&nbsp; English &amp; Español", "trust1": "Empresa Familiar", "trust2": "En el Sur de Florida Desde 2008", "trust3": "Bilingüe — Inglés y Español", "trust4": "Estimados Gratis", "area_eyebrow": "Dónde Trabajamos", "area_title": "Servimos Todo el <em>Sur de Florida</em>", "area_body": "Con base en el Sur de Florida y sirviendo a familias en toda la región, con el corazón de nuestro trabajo en el Condado de Broward y Miami-Dade.", "area1_name": "Condado de Broward", "area1_cities": "Fort Lauderdale · Pembroke Pines · Hollywood<br />Coral Springs · Davie · Weston · Miramar<br />Plantation · Sunrise y áreas cercanas", "area2_name": "Condado de Miami-Dade", "area2_cities": "Miami · Aventura · Doral · Hialeah<br />Kendall · Homestead · Miami Beach<br />Coral Gables y áreas cercanas", "area_note": "¿No está seguro si cubrimos su área? Pregúntenos — si está en el Sur de Florida, con gusto le ayudamos.", "faq_eyebrow": "Bueno Saber", "faq_title": "Preguntas, <em>Respondidas</em>", "faq_q1": "¿Ofrecen estimados gratis?", "faq_a1": "Siempre. Cada proyecto comienza con un estimado gratis y sin compromiso. Visitamos su hogar, evaluamos el alcance completo del trabajo y le damos una cotización honesta y detallada antes de que se comprometa a nada.", "faq_q2": "¿Qué áreas atienden?", "faq_a2": "Atendemos a familias en todo el Sur de Florida, con la mayor parte de nuestro trabajo en el Condado de Broward y Miami-Dade. Si está en la región y no sabe si cubrimos su área, solo pregúntenos.", "faq_q3": "¿Hablan español?", "faq_a3": "Sí. Atendemos a familias de habla inglesa y española con el mismo cuidado, para que siempre entienda exactamente lo que sucede en su hogar. Hablamos español.", "faq_q4": "¿Qué tipo de proyectos realizan?", "faq_a4": "Los baños son nuestra especialidad, pero realizamos renovaciones interiores completas: cocinas, pisos, pintura y acabados, conversión de garajes y espacios, y el trabajo de plomería y electricidad que conllevan.", "faq_q5": "¿Cómo funciona el pago?", "faq_a5": "Es sencillo y transparente: 50% al inicio, 25% a la mitad y 25% al finalizar, cuando esté satisfecho con el trabajo. Todo queda detallado en un contrato escrito antes de comenzar.", "faq_q6": "¿Cómo empezamos?", "faq_a6": "Llámenos o escríbanos y agendaremos su estimado gratis en el horario que más le convenga. A partir de ahí, ponemos todo por escrito: sin sorpresas, sin presión, solo claridad.", "closer_eyebrow": "Una Mirada Más de Cerca a Nuestro Trabajo", "label_language": "Idioma Preferido para la Llamada", "lang_en": "Inglés", "lang_es": "Español", "review_btn": "Déjenos una Reseña en Google"};
+    const I18N_ES = {"nav_about": "Nosotros", "nav_services": "Servicios", "nav_gallery": "Galería", "nav_why": "Por Qué Nosotros", "nav_contact": "Contacto", "nav_tagline": "Sur de Florida · Desde 2008", "nav_cta": "Estimado Gratis", "mobile_cta": "Estimado Gratis — (954) 892-6059", "hero_eyebrow": "La Empresa Familiar de Renovación de Confianza del Sur de Florida", "hero_title": "\n        Usted lo <em>Sueña</em>,<br />Nosotros lo Construimos.\n      ", "hero_subtitle": "Renovación de hogares de lujo, construida sobre artesanía, integridad y familia.", "hero_cta1": "Solicite un Estimado Gratis", "hero_cta2": "Vea Nuestro Trabajo", "hero_scroll": "Desliza", "stat1": "Años de Experiencia", "stat2": "Por Recomendación", "stat3": "Idiomas", "stat4": "Costo de su Estimado", "badge_yrs": "Años de<br/>Excelencia", "about_eyebrow": "Nuestra Historia", "about_title": "Una Familia Construida sobre<br /><em>Confianza y Arte</em>", "about_p1": "\n            AG Barboza Corporation fue fundada por Anthony Barboza, un hombre que llegó al Sur de Florida desde Perú con un sueño y la disciplina para hacerlo realidad. Guiado por un amigo de confianza, Anthony descubrió no solo una profesión, sino una vocación. Desde 2008, su trabajo ha hablado por sí mismo, creciendo enteramente gracias a las recomendaciones de familias que confiaron en él dentro de sus hogares y nunca miraron atrás.\n          ", "about_p2": "\n            Anthony construyó esta empresa sobre una base sencilla: hacer el trabajo bien, tratar a cada cliente como familia y nunca comprometer la calidad. Durante más de 18 años, ese compromiso le ha dado algo que ningún anuncio puede comprar: una reputación que se difunde de boca en boca, un cliente satisfecho a la vez. En una industria donde la confianza es difícil de encontrar, AG Barboza Corporation ha construido su nombre sin tomar atajos.\n          ", "about_quote": "\n            \"La integridad lo es todo. Si la pierdes, lo pierdes todo. Eso nunca pasará aquí.\"\n            <span class=\"founder-sign\">Anthony Barboza</span>\n            <small class=\"founder-role\">Fundador y Maestro de Obra</small>\n          ", "about_cta": "Obtenga un Estimado Gratis", "family_eyebrow": "El Equipo Detrás del Trabajo", "family_title": "Conozca a la <em>Familia Barboza</em>", "family_intro": "\n          Esto es más que un negocio: es una familia. Cada proyecto lleva nuestro nombre, y así lo tratamos.\n        ", "anthony_role": "Fundador · Propietario · Maestro de Obra", "anthony_bio": "\n              Anthony construyó esta empresa desde cero, una recomendación y un hogar transformado a la vez. Con más de 18 años de experiencia práctica en el Sur de Florida, dirige personalmente cada proyecto de principio a fin. Hablante nativo de español, con un ojo agudo para el detalle y una visión creativa, estará en su hogar desde el primer estimado hasta la revisión final.\n            ", "valeria_role": "Marca y Diseño · Coordinadora Bilingüe · Asistente de Negocios", "valeria_bio": "\n              Valeria es la hija de Anthony y la voz detrás de la marca. Con dominio del inglés y el español, ella conecta cada detalle, desde la comunicación con los clientes y la coordinación de proyectos hasta liderar el diseño y la dirección creativa que dan forma a la presencia moderna de la empresa. Con Valeria, siempre tiene a alguien a quien llamar, alguien que se preocupa y que da seguimiento.\n            ", "ff_eyebrow": "Más Que una Empresa", "ff_title": "Una Familia en Quien Puede Confiar en Su Hogar", "ff_p": "Cuando contrata a AG Barboza Corporation, no contrata a un contratista cualquiera: da la bienvenida a nuestra familia dentro de la suya. Esa es una responsabilidad que nunca tomamos a la ligera.", "services_eyebrow": "Lo Que Hacemos", "services_title": "Renovación Interior <em>Completa</em>", "services_body": "\n          Si está dentro de su hogar, podemos transformarlo. Cada proyecto comienza con un estimado gratis, sin compromiso, sin presión, solo honestidad.\n        ", "svc1_name": "Renovación de Baños", "svc1_desc": "Nuestra especialidad. Desde suites principales hasta baños de visitas: remodelación completa con azulejo de porcelana, instalación de jacuzzi, bases de ducha, plomería e iluminación. Cada detalle, bien hecho.", "svc1_tag": "Más Solicitado", "svc2_name": "Remodelación de Cocinas", "svc2_desc": "Transformaciones completas de cocina: gabinetes, encimeras, azulejo de pared, ajustes de plomería e iluminación. Definimos cada proyecto según su visión y la elección de materiales.", "svc3_name": "Pisos", "svc3_desc": "Desde mármol y porcelana hasta laminado y madera. Instalamos pisos que complementan la estética completa de su hogar, con precios según los metros cuadrados y la complejidad del material.", "svc4_name": "Pintura y Acabados", "svc4_desc": "Pintura interior y exterior y acabados personalizados que unen todo el espacio: líneas limpias, capas uniformes y un resultado impecable que hace que cada habitación se sienta como nueva.", "svc5_name": "Conversión de Espacios", "svc5_desc": "Convierta su garaje en una habitación, una oficina o espacio adicional. Construcción completa que incluye estructura, tablaroca, electricidad, pisos y acabados.", "svc6_name": "Plomería y Electricidad", "svc6_desc": "Todo trabajo de renovación incluye plomería y electricidad profesional según se necesite: cambio de luminarias, instalación y ajuste de tuberías, e integración completa de los sistemas.", "services_cta": "Agende su Estimado Gratis", "gallery_eyebrow": "Nuestro Trabajo", "gallery_title": "La Calidad <em>Habla</em> por Sí Sola", "gallery_body": "\n          Cada proyecto de nuestro portafolio fue construido por Anthony, personalmente. Estos son hogares del Sur de Florida en los que nos enorgullece poner nuestro nombre.\n        ", "g1": "Baño Principal", "g2": "Ducha Personalizada", "g3": "Renovación de Baño", "g4": "Cancel de Vidrio", "g5": "Bañera de Lujo", "g6": "Renovación Completa", "g7": "Ducha Amplia", "g8": "Baño Contemporáneo", "g9": "Azulejo Moderno", "g10": "Baño Principal de Diseño", "why_eyebrow": "Por Qué AG Barboza", "why_title": "El Estándar Que <em>Nunca</em> Bajamos", "why1_title": "Integridad en Todo", "why1_text": "Los valores de Anthony son la base de este negocio. Precios honestos, alcance transparente y cero atajos. Nuestra palabra es nuestro contrato, y nuestro trabajo es la prueba.", "why2_title": "18+ Años, Por Recomendación", "why2_text": "Desde 2008 nunca hemos pagado por publicidad. Cada cliente llegó por otro cliente satisfecho. Ese es el único respaldo que importa.", "why3_title": "Servicio Bilingüe", "why3_text": "Atendemos a las comunidades de habla inglesa y española del Sur de Florida con el mismo cuidado. Usted siempre debe entender exactamente lo que sucede en su hogar.", "why4_title": "Estimado Gratis, Siempre", "why4_text": "Cada proyecto comienza con un estimado sin costo y sin compromiso. Usted conoce el número honesto antes de firmar cualquier contrato o iniciar cualquier trabajo.", "process_eyebrow": "Cómo Funciona", "process_title": "Simple. Honesto. <em>Bien Hecho.</em>", "step1_title": "Estimado Gratis", "step1_desc": "Llámenos o escríbanos. Visitamos su hogar, evaluamos el alcance completo del trabajo y le damos una cotización honesta y detallada, sin costo.", "step2_title": "Contrato Firmado", "step2_desc": "Una vez que aprueba el estimado, formalizamos todo en un contrato escrito. Sin sorpresas. Sin zonas grises. Solo claridad.", "step3_title": "Manos a la Obra", "step3_desc": "Anthony y su equipo de confianza llegan y ejecutan. 50% al inicio, 25% a la mitad, 25% al finalizar. Siempre estará informado.", "step4_title": "Revisión Final", "step4_desc": "Recorremos juntos el proyecto terminado. Cada detalle revisado. Cada inquietud atendida. No nos vamos hasta que esté orgulloso del resultado.", "test_eyebrow": "Historias de Clientes", "test_title": "Lo Que Dicen Nuestras <em>Familias</em>", "test1_text": "AG Barboza Corporation entrega resultados excepcionales. Siempre me impresiona la rapidez con la que transforman cualquier espacio. Uno les comparte su visión y ellos la hacen realidad con profesionalismo, dedicación y una atención meticulosa al detalle. Los recomiendo totalmente.", "test1_author": "— Adriana Fortuna", "test3_text": "La calidad del trabajo, la comunicación y la dedicación a la excelencia superaron todas mis expectativas. Si busca a alguien talentoso, confiable y apasionado por lo que hace, recomiendo totalmente a AG Barboza Corporation. ¡Gracias por el excelente trabajo!", "test3_author": "— Sebastian Ortiz", "cta_title": "Su Hogar Merece la<br /><em>Mejor Versión de Sí Mismo.</em>", "cta_sub": "Comience con un estimado gratis y sin compromiso de un contratista que será honesto con usted desde la primera conversación hasta el último azulejo.", "cta_btn1": "Solicite su Estimado Gratis", "cta_btn2": "Llámenos Ahora", "contact_eyebrow": "Contáctenos", "contact_title": "Hablemos de<br /><em>Su Hogar</em>", "contact_p": "Toda gran renovación comienza con una conversación honesta. Escríbanos y agendaremos un estimado gratis en el horario que más le convenga. Sin presión. Sin compromiso. Solo claridad.", "contact_loc": "Condado de Broward y Miami-Dade, Sur de Florida", "contact_hours": "Lun – Sáb: 8:00 AM – 6:00 PM", "form_title": "Solicite un Estimado Gratis", "form_sub": "Complete el formulario y nos pondremos en contacto dentro de 24 horas.", "label_first": "Nombre", "label_last": "Apellido", "label_phone": "Teléfono", "label_email": "Correo Electrónico", "label_service": "Servicio Necesitado", "label_message": "Cuéntenos Sobre Su Proyecto", "opt0": "Seleccione un servicio...", "opt_bath": "Renovación de Baños", "opt_kit": "Remodelación de Cocinas", "opt_floor": "Pisos", "opt_roof": "Pintura y Acabados", "opt_space": "Conversión de Espacios / Garaje", "opt_plumb": "Plomería o Electricidad", "opt_multi": "Múltiples Servicios / Renovación Completa", "opt_other": "Otro", "submit_btn": "\n              Enviar mi Solicitud de Estimado\n            ", "free_note": "&#10003; Estimado gratis &nbsp; &#10003; Sin compromiso &nbsp; &#10003; Respuesta en 24 horas", "social_eyebrow": "Manténgase Conectado", "social_title": "Siga Nuestro <em>Trabajo</em>", "social_p": "\n        Vea nuestros proyectos más recientes, antes y después, y transformaciones de renovación en Instagram y Facebook.\n      ", "footer_brand": "Empresa familiar de renovación de hogares del Sur de Florida. Atendemos el Condado de Broward y Miami-Dade con integridad, artesanía y atención bilingüe desde 2008.", "footer_tagline": "\"Usted lo sueña, nosotros lo construimos.\"", "footer_h_services": "Servicios", "footer_h_company": "Empresa", "f_bath": "Renovación de Baños", "f_kit": "Remodelación de Cocinas", "f_floor": "Pisos", "f_roof": "Pintura y Acabados", "f_space": "Conversión de Espacios", "f_plumb": "Plomería y Electricidad", "f_about": "Nosotros", "f_family": "Nuestra Familia", "f_gallery": "Galería", "f_why": "Por Qué Elegirnos", "f_contact": "Contacto", "footer_copy": "&copy; 2026 AG Barboza Corporation. Todos los derechos reservados.", "footer_loc": "Condado de Broward y Miami-Dade, Sur de Florida &nbsp;|&nbsp; English &amp; Español", "trust1": "Empresa Familiar", "trust2": "En el Sur de Florida Desde 2008", "trust3": "Bilingüe — Inglés y Español", "trust4": "Estimados Gratis", "area_eyebrow": "Dónde Trabajamos", "area_title": "Servimos Todo el <em>Sur de Florida</em>", "area_body": "Con base en el Sur de Florida y sirviendo a familias en toda la región, con el corazón de nuestro trabajo en el Condado de Broward y Miami-Dade.", "area1_name": "Condado de Broward", "area1_cities": "Fort Lauderdale · Pembroke Pines · Hollywood<br />Coral Springs · Davie · Weston · Miramar<br />Plantation · Sunrise y áreas cercanas", "area2_name": "Condado de Miami-Dade", "area2_cities": "Miami · Aventura · Doral · Hialeah<br />Kendall · Homestead · Miami Beach<br />Coral Gables y áreas cercanas", "area_note": "¿No está seguro si cubrimos su área? Pregúntenos — si está en el Sur de Florida, con gusto le ayudamos.", "faq_eyebrow": "Bueno Saber", "faq_title": "Preguntas, <em>Respondidas</em>", "faq_q1": "¿Ofrecen estimados gratis?", "faq_a1": "Siempre. Cada proyecto comienza con un estimado gratis y sin compromiso. Visitamos su hogar, evaluamos el alcance completo del trabajo y le damos una cotización honesta y detallada antes de que se comprometa a nada.", "faq_q2": "¿Qué áreas atienden?", "faq_a2": "Atendemos a familias en todo el Sur de Florida, con la mayor parte de nuestro trabajo en el Condado de Broward y Miami-Dade. Si está en la región y no sabe si cubrimos su área, solo pregúntenos.", "faq_q3": "¿Hablan español?", "faq_a3": "Sí. Atendemos a familias de habla inglesa y española con el mismo cuidado, para que siempre entienda exactamente lo que sucede en su hogar. Hablamos español.", "faq_q4": "¿Qué tipo de proyectos realizan?", "faq_a4": "Los baños son nuestra especialidad, pero realizamos renovaciones interiores completas: cocinas, pisos, pintura y acabados, conversión de garajes y espacios, y el trabajo de plomería y electricidad que conllevan.", "faq_q5": "¿Cómo funciona el pago?", "faq_a5": "Es sencillo y transparente: 50% al inicio, 25% a la mitad y 25% al finalizar, cuando esté satisfecho con el trabajo. Todo queda detallado en un contrato escrito antes de comenzar.", "faq_q6": "¿Cómo empezamos?", "faq_a6": "Llámenos o escríbanos y agendaremos su estimado gratis en el horario que más le convenga. A partir de ahí, ponemos todo por escrito: sin sorpresas, sin presión, solo claridad.", "closer_eyebrow": "Una Mirada Más de Cerca a Nuestro Trabajo", "label_language": "Idioma Preferido para la Llamada", "lang_en": "Inglés", "lang_es": "Español", "review_btn": "Déjenos una Reseña en Google", "ba_eyebrow": "La Transformación", "ba_title": "De la Visión a lo <em>Terminado</em>", "ba_body": "Deslice para ver la diferencia — del espacio en obra al resultado final al que nuestras familias regresan a casa.", "ba_before": "Antes", "ba_after": "Después"};
     const I18N_ES_PH = {"msg_ph": "Describa su espacio, lo que desea hacer y cualquier detalle que nos ayude a preparar su estimado..."};
 
     // Capture original English once
