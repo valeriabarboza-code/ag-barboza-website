@@ -1537,7 +1537,7 @@
       gap: 1.5rem;
       animation: tcol-scroll 28s linear infinite;
     }
-    .tcols:hover .tcol-track { animation-play-state: paused; }
+    /* columns scroll continuously — no hover/touch pause */
     @keyframes tcol-scroll {
       from { transform: translateY(0); }
       to   { transform: translateY(-50%); }
